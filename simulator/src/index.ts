@@ -88,6 +88,9 @@ class CosmicEvent {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const main = async () => {
+
+
+
   let eventCounter = 0;
   let eventToPublish;
   console.log("starting to generate events");
