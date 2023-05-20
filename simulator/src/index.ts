@@ -45,15 +45,6 @@ const getRandomEventTypeEnumValue = () => {
   return randomEnumValue;
 };
 
-// interface CosmicEventInterface {
-//   eventTS: number;
-//   eventSource: string;
-//   ra: RALocationUnits;
-//   dec: DECLocationUnits;
-//   eventType: EventType;
-//   urgency: number;
-// }
-
 const getRandomNumberByMaxVal = (maxVal: number) => {
   return Math.floor(Math.random() * maxVal);
 };
@@ -76,7 +67,7 @@ class CosmicEvent {
   eventType: string;
   urgency: number;
 
-  constructor(eventTS: number, urgency: number) {
+  constructor(urgency: number) {
     this.ra = {
       minutes: getRandomNumberByMaxVal(59),
       hours: getRandomNumberByMaxVal(23),
@@ -90,20 +81,38 @@ class CosmicEvent {
     this.eventType = getRandomEventTypeEnumValue();
     this.eventSource = getRandomEventSourceEnumValue();
     this.urgency = urgency;
-    this.eventTS = eventTS;
+    this.eventTS = new Date().getTime();
   }
 }
-
-const generateCosmicEvent = () => {};
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const main = async () => {
   let eventCounter = 0;
+  let eventToPublish;
   console.log("starting to generate events");
+
   while (true) {
-    generateCosmicEvent();
+    let priority = getRandomNumberByMaxVal(2);
+
+    if (eventCounter % 100 === 0) {
+      eventToPublish = new CosmicEvent(3);
+    }
+
+    if (eventCounter % 1000 === 0) {
+      eventToPublish = new CosmicEvent(4);
+    }
+
+    if (eventCounter % 10000 === 0) {
+      eventToPublish = new CosmicEvent(5);
+    }
+
+    if (eventCounter === undefined) {
+      eventToPublish = new CosmicEvent(priority);
+    }
+
     eventCounter++;
+    eventToPublish = undefined;
     sleep(1000);
   }
 };
