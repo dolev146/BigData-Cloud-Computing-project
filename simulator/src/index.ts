@@ -1,3 +1,11 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+import { KafkaHandler } from "./kafka-handler";
+
+const MESSAGES_PER_MIN = 10
+const MILISECONDS_IN_MIN = 60000
+const DELAY = MILISECONDS_IN_MIN / MESSAGES_PER_MIN
+
 interface RALocationUnits {
   hours: number;
   minutes: number;
@@ -83,13 +91,29 @@ class CosmicEvent {
     this.urgency = urgency;
     this.eventTS = new Date().getTime();
   }
+
+  private toObject() {
+    return {
+      eventType: this.eventType,
+      eventSource: this.eventSource,
+      urgency: this.urgency,
+      eventTS: this.eventTS,
+      ra: this.ra,
+      dec: this.dec,
+    };
+  }
+
+  serialize() {
+    return JSON.stringify(this.toObject());
+  }
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const main = async () => {
-
-
+  console.log(`Sending ${MESSAGES_PER_MIN} messages per min, Delay between each message in MS: ${DELAY}`);
+  const kafkaHandler = new KafkaHandler();
+  await kafkaHandler.connectKafka();
 
   let eventCounter = 0;
   let eventToPublish;
@@ -110,13 +134,18 @@ const main = async () => {
       eventToPublish = new CosmicEvent(5);
     }
 
-    if (eventCounter === undefined) {
+    if (eventToPublish === undefined) {
       eventToPublish = new CosmicEvent(priority);
     }
 
+    let messageAsString = JSON.stringify(eventToPublish)
+    await kafkaHandler.sendMessage({
+      key: new Date().getTime().toString(),
+      value: messageAsString,
+    });
     eventCounter++;
     eventToPublish = undefined;
-    sleep(1000);
+    await sleep(DELAY);
   }
 };
 
@@ -124,6 +153,6 @@ main()
   .then(() => {
     console.log("Done");
   })
-  .catch(() => {
-    console.error("ERROR OCCURED!!");
+  .catch((e) => {
+    console.error(`ERROR OCCURED!!: ${e}`);
   });
