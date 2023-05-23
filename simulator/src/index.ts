@@ -92,20 +92,6 @@ class CosmicEvent {
     this.eventTS = new Date().getTime();
   }
 
-  private toObject() {
-    return {
-      eventType: this.eventType,
-      eventSource: this.eventSource,
-      urgency: this.urgency,
-      eventTS: this.eventTS,
-      ra: this.ra,
-      dec: this.dec,
-    };
-  }
-
-  serialize() {
-    return JSON.stringify(this.toObject());
-  }
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
