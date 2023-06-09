@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Simulator from "./pages/Simulator";
+import Nasa from "./pages/Nasa";
+import Scraper from "./pages/Scraper";
+import NavBar from "./components/NavBar/NavBar";
 
-function App() {
-  const [count, setCount] = useState(0)
+import styled from "styled-components";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const StyledMain = styled.main`
+  margin-left: 4rem;
+  padding: 1rem;
+`;
 
-export default App
+const App = () => (
+  <>
+    <NavBar />
+    <StyledMain>
+      <Routes>
+        <Route path="/" element={<Simulator />} exact />
+        <Route path="/nasa" element={<Nasa />} />
+        <Route path="/scraper" element={<Scraper />} />
+      </Routes>
+    </StyledMain>
+  </>
+);
+
+export default App;
