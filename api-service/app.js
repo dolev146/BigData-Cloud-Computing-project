@@ -3,7 +3,9 @@ import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { router as esRouter } from "./routers/elastic-router.js";
+import { router as esRouter } from "./routers/elasticRouter.js";
+import { router as NASARouter } from "./routers/nasaRouter.js";
+import { router as scrapeRouter } from "./routers/scrapeRouter.js";
 dotenv.config();
 
 const port = process.env.PORT || 9080;
@@ -18,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("combined"));
 
 app.use("/elastic-api", esRouter);
+app.use("/nasa-api", NASARouter);
+app.use("/scrape-api", scrapeRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
