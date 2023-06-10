@@ -1,28 +1,11 @@
 import styled from "styled-components";
 
 const StyledSVG = styled.svg`
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: red;
-  /* background: var(--bg-secondary); */
-  font-size: 1.5rem;
-  letter-spacing: 0.3ch;
+  color: orange;
   width: 100%;
   transform: rotate(0deg);
   transition: var(--transition-speed);
 
-  @media only screen and (max-width: 600px) {
-    display: none;
-  }
-
-  @media only screen and (min-width: 600px) {
-    &:hover {
-      transform: rotate(-180deg);
-      margin-left: 11rem;
-    }
-  }
 `;
 
 const LogoSVG = () => {

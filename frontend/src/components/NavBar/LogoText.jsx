@@ -2,22 +2,22 @@
 import styled from "styled-components";
 
 const StyledLinkText = styled.span`
-  /* display: none; */
 
+  font-weight: bold;
+  text-transform: uppercase;
   margin-left: 1rem;
   display: inline;
   position: absolute;
   left: -999px;
   transition: var(--transition-speed);
-  &:hover {
-    color: wheat;
-    left: 0;
-  }
 
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const LogoText = () => {
-  return <StyledLinkText>BigData</StyledLinkText>;
+  return <StyledLinkText>Big Data</StyledLinkText>;
 };
 
 export default LogoText;

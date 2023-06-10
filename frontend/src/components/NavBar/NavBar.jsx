@@ -21,9 +21,28 @@ const StyledNavBar = styled.nav`
     :hover {
       width: 16rem;
     }
-    :hover ul li svg {
-      transform: rotate(-180deg);
+    :hover ul li:first-child svg {
+      transform: rotate(-540deg);
       margin-left: 11rem;
+    }
+
+    :hover ul li svg {
+      color: orange;
+    }
+
+    :hover ul li:first-child span {
+      left: 0px;
+      display: block;
+    }
+
+    ul li .link-text {
+      display: none;
+    }
+
+    :hover ul li .link-text {
+      color: orange;
+      display: block;
+      margin-left: 1rem;
     }
   }
 `;
