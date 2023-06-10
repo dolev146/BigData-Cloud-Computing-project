@@ -9,7 +9,7 @@ const StyledNavLink = styled.a`
   height: 5rem;
   color: var(--text-primary);
   text-decoration: none;
-  filter: grayscale(100%) opacity(0.7);
+  filter: grayscale(70%) opacity(0.7);
   transition: var(--transition-speed);
 
   :hover {
