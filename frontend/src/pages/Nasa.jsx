@@ -1,7 +1,10 @@
+import NasaComponent from "./Nasa/NasaComponent"
 
 const Nasa = () => {
   return (
-    <div>Nasa</div>
+    <>
+    <NasaComponent/>
+    </>
   )
 }
 
