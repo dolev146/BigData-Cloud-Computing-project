@@ -6,6 +6,7 @@ const StyledNavBar = styled.nav`
   position: fixed;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
+  padding-left: 0;
 
   @media only screen and (max-width: 600px) {
     bottom: 0;
