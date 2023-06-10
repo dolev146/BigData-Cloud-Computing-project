@@ -13,7 +13,10 @@ const NasaComponent = () => {
 
   return (
     <div>
-      <RadioButtons setRadioButtons={setRadioButtons} />
+      <RadioButtons
+        radioButtons={radioButtons}
+        setRadioButtons={setRadioButtons}
+      />
       {radioButtons.searchById ? <SearchById /> : null}
       {radioButtons.browse ? <Browse /> : null}
       {radioButtons.dateSearch ? <DateSearch /> : null}

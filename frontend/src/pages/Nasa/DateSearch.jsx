@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Table from "react-bootstrap/Table";
 
 const DateSearch = () => {
   const [jsonResponse, setjsonResponse] = useState("");
@@ -42,38 +43,44 @@ const DateSearch = () => {
                     <br />
                     <div key={date}>
                       {date}: {asteroids.length} objects
-                      <div>
-                        {asteroids.map((asteroid) => (
-                          <div key={asteroid.id}>
-                            <div>Asteroid ID: {asteroid.id}</div>
-                            <div>
-                              Absolute Magnitude :
-                              {asteroid.absolute_magnitude_h}
-                            </div>
-                            <div>
-                              Estimated Diameter (m):
-                              {
-                                asteroid.estimated_diameter.meters
-                                  .estimated_diameter_min
-                              }
-                            </div>
-                            <div>
-                              Is Potentially hazardous asteroid?:
-                              {asteroid.is_potentially_hazardous_asteroid
-                                ? "True"
-                                : "False"}
-                            </div>
-                            <div>
-                              Close Approach Date:
-                              {
-                                asteroid.close_approach_data[0]
-                                  .close_approach_date
-                              }
-                            </div>
-                            <div>Name : {asteroid.name}</div>
-                          </div>
-                        ))}
-                      </div>
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Asteroid ID</th>
+                            <th>Absolute Magnitude</th>
+                            <th>Estimated Diameter (m)</th>
+                            <th>Is Potentially hazardous asteroid?</th>
+                            <th>Close Approach Date</th>
+                            <th>Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {asteroids.map((asteroid) => (
+                            <tr key={asteroid.id}>
+                              <td>{asteroid.id}</td>
+                              <td>{asteroid.absolute_magnitude_h}</td>
+                              <td>
+                                {
+                                  asteroid.estimated_diameter.meters
+                                    .estimated_diameter_min
+                                }
+                              </td>
+                              <td>
+                                {asteroid.is_potentially_hazardous_asteroid
+                                  ? "True"
+                                  : "False"}
+                              </td>
+                              <td>
+                                {
+                                  asteroid.close_approach_data[0]
+                                    .close_approach_date
+                                }
+                              </td>
+                              <td>{asteroid.name}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
                     </div>
                   </React.Fragment>
                 );

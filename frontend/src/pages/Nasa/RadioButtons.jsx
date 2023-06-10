@@ -10,11 +10,11 @@ const StyledButtonGroup = styled.div`
   justify-content: center;
 `;
 
-const RadioButtons = ({ setRadioButtons }) => {
+const RadioButtons = ({ radioButtons, setRadioButtons }) => {
   const [active, setActive] = useState({
-    searchById: "secondary",
-    browse: "secondary",
-    dateSearch: "secondary",
+    searchById: radioButtons.searchById ? "primary" : "secondary",
+    browse: radioButtons.browse ? "primary" : "secondary",
+    dateSearch: radioButtons.dateSearch ? "primary" : "secondary",
   });
 
   const handleSearchById = () => {
