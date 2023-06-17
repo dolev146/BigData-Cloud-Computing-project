@@ -35,3 +35,12 @@ services:
       - elasticsearch
       # - kafka
       # - zookeeper
+  
+  simulator:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    container_name: simulator
+    env_file:
+      - simulator/.env
+    
