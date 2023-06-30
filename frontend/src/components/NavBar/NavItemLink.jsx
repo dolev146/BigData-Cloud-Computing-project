@@ -1,5 +1,24 @@
-import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const hoverBackground = keyframes`
+  from {
+    background: initial;
+  }
+  to {
+    background: var(--bg-secondary);
+  }
+`;
 
 const StyledNavItemLink = styled.a`
   display: flex;
@@ -12,8 +31,9 @@ const StyledNavItemLink = styled.a`
 
   :hover {
     filter: grayscale(0%) opacity(1);
-    background: var(--bg-secondary);
     color: var(--text-secondary);
+    animation: 400ms ${hoverBackground} ease-out forwards;
+    animation-delay: 400ms; // Adjust this to match the time it takes for the navbar to expand
   }
 
   @media only screen and (max-width: 600px) {
@@ -23,34 +43,31 @@ const StyledNavItemLink = styled.a`
   svg {
     width: 2rem;
     min-width: 2rem;
-    margin: 1rem;
+  }
+
+  .link-text {
+    animation: 1000ms ${fadeIn} ease-out forwards;
+    animation-delay: 200ms; // Adjust this to match the time it takes for the navbar to expand
+    opacity: 0;
   }
 `;
 
 const NavItemLink = ({ svgPaths, linkText }) => {
+  const navigate = useNavigate();
+  const handleClick = (linkText) => {
+    if (linkText === "Simulator") navigate("/simulator");
+    if (linkText === "Nasa") navigate("/nasa");
+    if (linkText === "Scraper") navigate("/");
+  };
+
+
   return (
-    <StyledNavItemLink href="#" className="nav-link">
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        data-prefix="fad"
-        data-icon="cat"
-        role="img"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512"
-        className="svg-inline--fa fa-cat fa-w-16 fa-9x"
-      >
-        <g className="fa-group">
-          {svgPaths.map((path, index) => (
-            <path
-              key={index}
-              fill="#0F3A97"
-              d={path.d}
-              className={path.className}
-            />
-          ))}
-        </g>
-      </svg>
+    <StyledNavItemLink
+      onClick={() => handleClick(linkText)}
+      href="#"
+      className="nav-link"
+    >
+      <FontAwesomeIcon icon={svgPaths} />
       <span className="link-text">{linkText}</span>
     </StyledNavItemLink>
   );

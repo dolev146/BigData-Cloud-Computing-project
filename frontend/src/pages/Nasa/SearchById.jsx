@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useTable } from 'react-table';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Table from "react-bootstrap/Table";
 
 const SearchById = ({ asteroidId }) => {
   const [data, setData] = useState(null);
@@ -8,7 +8,9 @@ const SearchById = ({ asteroidId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:9080/nasa-api/asteroids/3542519`);
+        const response = await axios.get(
+          `http://localhost:9080/nasa-api/asteroids/3542519`
+        );
         setData(response.data);
       } catch (error) {
         console.error(error);
@@ -18,32 +20,6 @@ const SearchById = ({ asteroidId }) => {
     fetchData();
   }, [asteroidId]);
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Close Approach Date',
-        accessor: 'close_approach_date',
-      },
-      {
-        Header: 'Orbiting Body',
-        accessor: 'orbiting_body',
-      },
-      {
-        Header: 'Relative Velocity (km/h)',
-        accessor: d => d.relative_velocity.kilometers_per_hour,
-      },
-      {
-        Header: 'Miss Distance (km)',
-        accessor: d => d.miss_distance.kilometers,
-      },
-    ],
-    []
-  );
-
-  const tableInstance = useTable({ columns, data: data ? data.close_approach_data : [] });
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
-
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -52,32 +28,34 @@ const SearchById = ({ asteroidId }) => {
     <div>
       <h1>{data.name}</h1>
       <p>ID: {data.id}</p>
-      <p>NASA JPL URL: <a href={data.nasa_jpl_url}>{data.nasa_jpl_url}</a></p>
-      <p>Potentially Hazardous: {data.is_potentially_hazardous_asteroid ? 'Yes' : 'No'}</p>
+      <p>
+        NASA JPL URL: <a href={data.nasa_jpl_url}>{data.nasa_jpl_url}</a>
+      </p>
+      <p>
+        Potentially Hazardous:{" "}
+        {data.is_potentially_hazardous_asteroid ? "Yes" : "No"}
+      </p>
 
-      <table {...getTableProps()}>
+      <Table striped bordered hover>
         <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-              ))}
+          <tr>
+            <th>Close Approach Date</th>
+            <th>Orbiting Body</th>
+            <th>Relative Velocity (km/h)</th>
+            <th>Miss Distance (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.close_approach_data.map((approach, index) => (
+            <tr key={index}>
+              <td>{approach.close_approach_date}</td>
+              <td>{approach.orbiting_body}</td>
+              <td>{approach.relative_velocity.kilometers_per_hour}</td>
+              <td>{approach.miss_distance.kilometers}</td>
             </tr>
           ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                ))}
-              </tr>
-            );
-          })}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };
