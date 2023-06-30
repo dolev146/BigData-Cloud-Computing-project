@@ -13,13 +13,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.2.1",
+    "@types/node": "^20.3.2",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3",
+    "ioredis": "^5.3.2",
     "kafkajs": "^2.2.4"
   }
 }
