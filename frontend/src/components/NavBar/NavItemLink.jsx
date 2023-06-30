@@ -32,8 +32,8 @@ const StyledNavItemLink = styled.a`
   :hover {
     filter: grayscale(0%) opacity(1);
     color: var(--text-secondary);
-    animation: 500ms ${hoverBackground} ease-out forwards;
-    animation-delay: 200ms; // Adjust this to match the time it takes for the navbar to expand
+    animation: 400ms ${hoverBackground} ease-out forwards;
+    animation-delay: 400ms; // Adjust this to match the time it takes for the navbar to expand
   }
 
   @media only screen and (max-width: 600px) {

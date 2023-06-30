@@ -1,7 +1,6 @@
 import LogoSVG from "./LogoSVG";
 import LogoText from "./LogoText";
 import styled from "styled-components";
-// import "./NavLink.css";
 
 const StyledNavLink = styled.a`
   display: flex;
@@ -14,8 +13,9 @@ const StyledNavLink = styled.a`
 
   :hover {
     filter: grayscale(0%) opacity(1);
-    background: var(--bg-secondary);
     color: var(--text-secondary);
+    background: var(--bg-secondary);
+    transition-delay: 0.3s; // Adjust this value to match the time it takes for the navbar to fully expand.
   }
 
   @media only screen and (max-width: 600px) {
