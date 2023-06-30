@@ -2,10 +2,13 @@ import Redis from "ioredis";
 import axios from "axios";
 
 const maxRetries = 5;
-const redisClient = new Redis(6379, {
+const redisClient = new Redis(6379, process.env.REDIS_HOSTNAME || "127.0.0.1", {
   maxRetriesPerRequest: maxRetries,
   retryStrategy(times) {
     const delay = Math.min(times * 50, 2000);
+    if (times < 10) {
+        throw new Error("Redis connection problems")
+    }
     return delay;
   },
 });
