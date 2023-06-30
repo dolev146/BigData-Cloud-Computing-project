@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "npx nodemon",
     "exec": "npx ts-node ./src/index.ts",
-    "build": "rimraf ./build && tsc"
+    "build": "rm -rf ./build && tsc"
   },
   "keywords": [],
   "author": "",

@@ -26,7 +26,8 @@ const run = async () => {
     eachMessage: async (messagePayload) => {
       const { topic, partition, message } = messagePayload;
 
-      elastic.esclient
+      elastic
+        .getClient()
         .index({
           index: elastic.index,
           body: message.value,
@@ -45,18 +46,19 @@ const run = async () => {
 };
 
 const main = async () => {
-    const elasticIndex = await elastic.esclient.indices.exists({
-      index: elastic.index,
-    });
+  await elastic.connectToElasticsearch();
+  const esClient = elastic.getClient();
+  const elasticIndex = await esClient.indices.exists({
+    index: elastic.index,
+  });
 
-    if (!elasticIndex.body) {
-      await elastic.createIndex(elastic.index);
-    }
-  
+  if (!elasticIndex.body) {
+    await elastic.createIndex(elastic.index);
+  }
+
   run()
     .then((res) => console.log(res))
     .catch((e) => console.error(e));
-
 };
 
 main().catch((e) => console.error(`error eccured! : ${e}`));

@@ -9,7 +9,7 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
-    container_name: my-elasticsearch
+    container_name: elasticsearch
     environment:
       - discovery.type=single-node
     ports:
@@ -35,3 +35,21 @@ services:
       - elasticsearch
       # - kafka
       # - zookeeper
+  
+  simulator:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    container_name: simulator
+    env_file:
+      - simulator/.env
+    
+  elastic-ingestor:
+    build:
+      context: ./elastic-ingestor
+      dockerfile: Dockerfile
+    container_name: elastic-ingestor
+    env_file:
+      - elastic-ingestor/.env
+    depends_on:
+      - elasticsearch
