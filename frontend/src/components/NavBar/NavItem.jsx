@@ -5,6 +5,7 @@ import styled from "styled-components";
 const StyledNavItem = styled.li`
   width: 100%;
   margin-bottom: 1rem;
+  margin-right: 0px;
   text-align: center;
   font-size: 1.5rem;
   letter-spacing: 0.3ch;
