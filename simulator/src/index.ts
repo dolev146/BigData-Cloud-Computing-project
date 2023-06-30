@@ -1,20 +1,21 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import { KafkaHandler } from "./kafka-handler";
+import { ingestCatalogToRedis, getStarObjectByKey } from "./redis-data-handler";
+import { Star } from "./starInterface";
 
-const MESSAGES_PER_MIN = 10
-const MILISECONDS_IN_MIN = 60000
-const DELAY = MILISECONDS_IN_MIN / MESSAGES_PER_MIN
+const MESSAGES_PER_MIN = 10;
+const MILISECONDS_IN_MIN = 60000;
+const DELAY = MILISECONDS_IN_MIN / MESSAGES_PER_MIN;
+let numberOfStars = 0;
 
 interface RALocationUnits {
-  hours: number;
-  minutes: number;
-  seconds: number;
+  ra_val: string;
+  ra_pm: string;
 }
 interface DECLocationUnits {
-  degrees: number;
-  minutes: number;
-  seconds: number;
+  dec_val: string;
+  dec_pm: string;
 }
 
 enum EventType {
@@ -73,31 +74,34 @@ class CosmicEvent {
   ra: RALocationUnits;
   dec: DECLocationUnits;
   eventType: string;
+  title: string;
   urgency: number;
 
-  constructor(urgency: number) {
+  constructor(urgency: number, starData: Star) {
+    const { "RA PM": ra_pm, "DEC PM": dec_pm, DEC, RA , "Title HD": title} = starData;
     this.ra = {
-      minutes: getRandomNumberByMaxVal(59),
-      hours: getRandomNumberByMaxVal(23),
-      seconds: getRandomNumberByMaxVal(59),
+      ra_pm,
+      ra_val: RA,
     };
     this.dec = {
-      minutes: getRandomNumberByMaxVal(59),
-      seconds: getRandomNumberByMaxVal(59),
-      degrees: generateValidDEC(),
+      dec_pm,
+      dec_val: DEC,
     };
     this.eventType = getRandomEventTypeEnumValue();
     this.eventSource = getRandomEventSourceEnumValue();
     this.urgency = urgency;
     this.eventTS = new Date().getTime();
+    this.title = title
   }
-
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const main = async () => {
-  console.log(`Sending ${MESSAGES_PER_MIN} messages per min, Delay between each message in MS: ${DELAY}`);
+  numberOfStars = await ingestCatalogToRedis();
+  console.log(
+    `Sending ${MESSAGES_PER_MIN} messages per min, Delay between each message in MS: ${DELAY}`
+  );
   const kafkaHandler = new KafkaHandler();
   await kafkaHandler.connectKafka();
 
@@ -107,24 +111,27 @@ const main = async () => {
 
   while (true) {
     let priority = getRandomNumberByMaxVal(2);
+    const starData: Star = await getStarObjectByKey(
+      getRandomNumberByMaxVal(numberOfStars)
+    );
 
     if (eventCounter % 100 === 0) {
-      eventToPublish = new CosmicEvent(3);
+      eventToPublish = new CosmicEvent(3, starData);
     }
 
     if (eventCounter % 1000 === 0) {
-      eventToPublish = new CosmicEvent(4);
+      eventToPublish = new CosmicEvent(4, starData);
     }
 
     if (eventCounter % 10000 === 0) {
-      eventToPublish = new CosmicEvent(5);
+      eventToPublish = new CosmicEvent(5, starData);
     }
 
     if (eventToPublish === undefined) {
-      eventToPublish = new CosmicEvent(priority);
+      eventToPublish = new CosmicEvent(priority, starData);
     }
 
-    let messageAsString = JSON.stringify(eventToPublish)
+    let messageAsString = JSON.stringify(eventToPublish);
     await kafkaHandler.sendMessage({
       key: new Date().getTime().toString(),
       value: messageAsString,

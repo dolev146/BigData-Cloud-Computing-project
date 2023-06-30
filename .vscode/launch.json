@@ -13,6 +13,21 @@
             "justMyCode": true,
             "cwd": "${workspaceFolder}/scaper/",
             "python": "${workspaceFolder}/scaper/.venv/bin/python",
-        }
+        },
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Simulator Debug",
+            "program": "${workspaceFolder}/simulator/src/index.ts",
+            "preLaunchTask": "tsc: build - simulator/tsconfig.json",
+            "outFiles": ["${workspaceFolder}/simulator/build/**/*.js"],
+            "env": {
+                "USERNAME":"qhagfczs",
+                "PASSWORD":"Wf5RcdxJ5KoXVvGHkXCG7CyifjE69FZw",
+                "KAFKA_HOSTNAME":"dory.srvs.cloudkafka.com:9094",
+                "SIMULATOR_TOPIC_NAME":"qhagfczs-test-topic"
+            }
+          }
     ]
 }
