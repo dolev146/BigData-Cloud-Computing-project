@@ -58,13 +58,26 @@ const DateSearch = () => {
 
   return (
     <div style={{ cursor: "pointer" }}>
-      <div>
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-        />
-        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-        {error && <div style={{ color: "red" }}>{error}</div>}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+          />
+        </div>
+        <div>
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+          />
+          {error && <div style={{ color: "red" }}>{error}</div>}
+        </div>
       </div>
       <div>
         {jsonResponse && jsonResponse.element_count > 0
