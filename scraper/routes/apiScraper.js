@@ -4,11 +4,15 @@ import puppeteer from "puppeteer";
 import fetch from "node-fetch";
 
 router.get("/all-images-and-aria-labels", async (req, res) => {
-  const browser = await puppeteer.launch();
+  console.log("Starting scraper");
+  const browser = await puppeteer.launch({ headless: "new" });
 
   // Navigate to spaceweatherlive.com
   const page = await browser.newPage();
-  await page.goto("https://www.spaceweatherlive.com/en/solar-activity.html");
+
+  console.log("Browser opened");
+  await page.goto("https://www.spaceweatherlive.com/en/solar-activity.html", { timeout: 120000 });
+  console.log("Page loaded");
 
   const images = [
     { selector: "#SDO_512_0193", filename: "spaceweathersun.jpg" },
@@ -23,6 +27,7 @@ router.get("/all-images-and-aria-labels", async (req, res) => {
   for (const img of images) {
     const imgUrl = await page.evaluate((selector) => {
       const img = document.querySelector(selector);
+      console.log(img.src+ " image source loop");
       return img.src;
     }, img.selector);
 
