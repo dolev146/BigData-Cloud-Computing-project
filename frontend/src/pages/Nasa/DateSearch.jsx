@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-
-import { DatePicker, message } from 'antd';
-import moment from 'moment';
+import { DatePicker, message, Spin } from "antd"; // import Spin from antd
+import moment from "moment";
 import AsteroidTable from "./AsteroidTable";
 
 const { RangePicker } = DatePicker;
@@ -38,7 +37,10 @@ const DateSearch = () => {
       setLoading(false);
     };
 
-    if (dates.length === 2 && Math.abs(dates[0] - dates[1]) <= 7 * 24 * 60 * 60 * 1000) {
+    if (
+      dates.length === 2 &&
+      Math.abs(dates[0] - dates[1]) <= 7 * 24 * 60 * 60 * 1000
+    ) {
       setError(null);
       fetchDate();
     } else {
@@ -54,7 +56,18 @@ const DateSearch = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spin tip="Loading..." size="large" /> {/* return the Spin component */}
+      </div>
+    );
   }
 
   return (
@@ -71,12 +84,17 @@ const DateSearch = () => {
             format="YYYY-MM-DD"
             onChange={(dates, dateStrings) => {
               if (dates) {
-                const diffInDays = moment(dates[1]).diff(moment(dates[0]), 'days');
+                const diffInDays = moment(dates[1]).diff(
+                  moment(dates[0]),
+                  "days"
+                );
                 if (diffInDays <= 7) {
                   setDates(dates);
                   setError(null);
                 } else {
-                  message.error("The selected date range should not exceed 7 days.");
+                  message.error(
+                    "The selected date range should not exceed 7 days."
+                  );
                   setError("The selected date range should not exceed 7 days.");
                 }
               } else {
