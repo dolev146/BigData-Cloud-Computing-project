@@ -1,40 +1,63 @@
-import Table from "react-bootstrap/Table";
+import { Table, Tag } from 'antd';
 
-const AsteroidTable = ({ asteroids }) => (
-  <Table striped bordered hover>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Asteroid ID</th>
-        <th>Absolute Magnitude</th>
-        <th>Estimated Diameter (m)</th>
-        <th>Is Potentially hazardous asteroid?</th>
-        <th>Close Approach Date</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {asteroids.map((asteroid, index) => (
-        <tr key={asteroid.id}>
-          <td>{index + 1}</td>
-          <td>{asteroid.id}</td>
-          <td>{asteroid.absolute_magnitude_h}</td>
-          <td>{asteroid.estimated_diameter.meters.estimated_diameter_min}</td>
-          <td
-            style={{
-              color: asteroid.is_potentially_hazardous_asteroid
-                ? "red"
-                : "green",
-            }}
-          >
-            {asteroid.is_potentially_hazardous_asteroid ? "Yes" : "No"}
-          </td>
-          <td>{asteroid.close_approach_data[0].close_approach_date}</td>
-          <td>{asteroid.name}</td>
-        </tr>
-      ))}
-    </tbody>
-  </Table>
-);
+const AsteroidTable = ({ asteroids }) => {
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'index',
+      key: 'index',
+    },
+    {
+      title: 'Asteroid ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Absolute Magnitude',
+      dataIndex: 'absolute_magnitude_h',
+      key: 'absolute_magnitude_h',
+    },
+    {
+      title: 'Estimated Diameter (m)',
+      dataIndex: 'estimated_diameter',
+      key: 'estimated_diameter',
+      render: text => text.meters.estimated_diameter_min,
+    },
+    {
+      title: 'Is Potentially hazardous asteroid?',
+      dataIndex: 'is_potentially_hazardous_asteroid',
+      key: 'is_potentially_hazardous_asteroid',
+      render: text => (
+        <Tag color={text ? 'volcano' : 'green'}>
+          {text ? 'True' : 'False'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Close Approach Date',
+      dataIndex: 'close_approach_date',
+      key: 'close_approach_date',
+      render: text => text[0].close_approach_date,
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    }
+  ];
+
+  const dataSource = asteroids.map((asteroid, index) => ({
+    key: asteroid.id,
+    index: index + 1,
+    id: asteroid.id,
+    absolute_magnitude_h: asteroid.absolute_magnitude_h,
+    estimated_diameter: asteroid.estimated_diameter,
+    is_potentially_hazardous_asteroid: asteroid.is_potentially_hazardous_asteroid,
+    close_approach_date: asteroid.close_approach_data,
+    name: asteroid.name,
+  }));
+
+  return <Table dataSource={dataSource} columns={columns} />;
+};
 
 export default AsteroidTable;
