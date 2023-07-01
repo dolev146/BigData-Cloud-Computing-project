@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Card, Button, Spin } from "antd";
+import { Card, Button, Spin, Empty } from "antd";
 import {
   LineChart,
   Line,
@@ -99,18 +99,135 @@ const CenteredCardImage = styled.img`
 `;
 
 const Scraper = () => {
-  const [images, setImages] = useState({});
   const [graphData, setGraphData] = useState([]);
   const [activeImage, setActiveImage] = useState("sunspot-regions.jpg");
   const [loading, setLoading] = useState(true);
+  const [oldImages, setOldImages] = useState([{}]);
+  const [images, setImages] = useState({
+    "spaceweathersun.jpg": {
+      src: "",
+      loading: true,
+      error: false,
+      fallback: false,
+    },
+    "solarflares.jpg": {
+      src: "",
+      loading: true,
+      error: false,
+      fallback: false,
+    },
+    "sunspot-regions.jpg": {
+      src: "",
+      loading: true,
+      error: false,
+      fallback: false,
+    },
+    "theskylivesun.jpg": {
+      src: "",
+      loading: true,
+      error: false,
+      fallback: false,
+    },
+    "coronal-mass.jpg": {
+      src: "",
+      loading: true,
+      error: false,
+      fallback: false,
+    },
+    "far-side.jpg": { src: "", loading: true, error: false, fallback: false },
+  });
 
   useEffect(() => {
     fetch("http://localhost:5001/api/scraper/all-images-and-aria-labels")
       .then((res) => res.json())
       .then((data) => {
-        setImages(data.images);
-        setGraphData(data.graphData);
+        setImages((prevState) => ({
+          ...prevState,
+          "spaceweathersun.jpg": {
+            src: data.result.images["spaceweathersun.jpg"],
+            loading: false,
+            error: false,
+            fallback: false,
+          },
+          "solarflares.jpg": {
+            src: data.result.images["solarflares.jpg"],
+            loading: false,
+            error: false,
+            fallback: false,
+          },
+          "sunspot-regions.jpg": {
+            src: data.result.images["sunspot-regions.jpg"],
+            loading: false,
+            error: false,
+            fallback: false,
+          },
+          "theskylivesun.jpg": {
+            src: data.result.images["theskylivesun.jpg"],
+            loading: false,
+            error: false,
+            fallback: false,
+          },
+          "coronal-mass.jpg": {
+            src: data.result.images["coronal-mass.jpg"],
+            loading: false,
+            error: false,
+            fallback: false,
+          },
+          "far-side.jpg": {
+            src: data.result.images["far-side.jpg"],
+            loading: false,
+            error: false,
+            fallback: false,
+          },
+        }));
+        setGraphData(data.result.graphData);
+        setOldImages(data.oldResult.images);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+        setImages((prevState) => ({
+          ...prevState,
+          "spaceweathersun.jpg": {
+            src: "",
+            loading: false,
+            error: true,
+            fallback: false,
+          },
+          "solarflares.jpg": {
+            src: "",
+            loading: false,
+            error: true,
+            fallback: false,
+          },
+          "sunspot-regions.jpg": {
+            src: "",
+            loading: false,
+            error: true,
+            fallback: false,
+          },
+          "theskylivesun.jpg": {
+            src: "",
+            loading: false,
+            error: true,
+            fallback: false,
+          },
+          "coronal-mass.jpg": {
+            src: "",
+            loading: false,
+            error: true,
+            fallback: false,
+          },
+          "far-side.jpg": {
+            src: "",
+            loading: false,
+            error: true,
+            fallback: false,
+          },
+        }));
       });
   }, []);
 
@@ -127,21 +244,75 @@ const Scraper = () => {
       <StyledHeader>Space Weather Dashboard</StyledHeader>
       <GridWrapper>
         <CenteredCard title="Space Weather Sun">
-          <Spin spinning={loading}>
+          {images["spaceweathersun.jpg"].loading ? (
+            <Spin spinning={images["spaceweathersun.jpg"].loading} />
+          ) : images["spaceweathersun.jpg"].error ? (
+            <Button
+              onClick={() =>
+                setImages((prevState) => ({
+                  ...prevState,
+                  "spaceweathersun.jpg": {
+                    src: prevState["spaceweathersun.jpg"].src,
+                    loading: false,
+                    error: false,
+                    fallback: true,
+                  },
+                }))
+              }
+            >
+              Try old image
+            </Button>
+          ) : images["spaceweathersun.jpg"].fallback &&
+            oldImages["spaceweathersun.jpg"] ? (
             <Image
               alt="spaceweathersun"
-              src={`data:image/jpeg;base64,${images["spaceweathersun.jpg"]}`}
+              src={`data:image/jpeg;base64,${oldImages["spaceweathersun.jpg"]}`}
             />
-          </Spin>
+          ) : oldImages["spaceweathersun.jpg"] ? (
+            <Image
+              alt="spaceweathersun"
+              src={`data:image/jpeg;base64,${images["spaceweathersun.jpg"].src}`}
+            />
+          ) : (
+            <Empty description="Could not load image." />
+          )}
         </CenteredCard>
+
         <CenteredCard title="Solar Flares">
-          <Spin spinning={loading}>
+          {images["solarflares.jpg"].loading ? (
+            <Spin spinning={images["solarflares.jpg"].loading} />
+          ) : images["solarflares.jpg"].error ? (
+            <Button
+              onClick={() =>
+                setImages((prevState) => ({
+                  ...prevState,
+                  "solarflares.jpg": {
+                    src: prevState["solarflares.jpg"].src,
+                    loading: false,
+                    error: false,
+                    fallback: true,
+                  },
+                }))
+              }
+            >
+              Try old image
+            </Button>
+          ) : images["solarflares.jpg"].fallback &&
+            oldImages["solarflares.jpg"] ? (
             <Image
               alt="solarflares"
-              src={`data:image/jpeg;base64,${images["solarflares.jpg"]}`}
+              src={`data:image/jpeg;base64,${oldImages["solarflares.jpg"]}`}
             />
-          </Spin>
+          ) : oldImages["solarflares.jpg"] ? (
+            <Image
+              alt="solarflares"
+              src={`data:image/jpeg;base64,${images["solarflares.jpg"].src}`}
+            />
+          ) : (
+            <Empty description="Could not load image." />
+          )}
         </CenteredCard>
+
         <TwoImageCard
           title={
             activeImage === "sunspot-regions.jpg"
@@ -152,21 +323,74 @@ const Scraper = () => {
           <Button className="switch-button" onClick={switchImage}>
             Switch Image
           </Button>
-          <Spin spinning={loading}>
+          {images[activeImage].loading ? (
+            <Spin spinning={images[activeImage].loading} />
+          ) : images[activeImage].error ? (
+            <Button
+              onClick={() =>
+                setImages((prevState) => ({
+                  ...prevState,
+                  [activeImage]: {
+                    src: prevState[activeImage].src,
+                    loading: false,
+                    error: false,
+                    fallback: true,
+                  },
+                }))
+              }
+            >
+              Try old image
+            </Button>
+          ) : images[activeImage].fallback && oldImages[activeImage] ? (
             <Image
               alt="sunspot/skylive"
-              src={`data:image/jpeg;base64,${images[activeImage]}`}
+              src={`data:image/jpeg;base64,${oldImages[activeImage]}`}
             />
-          </Spin>
+          ) : oldImages[activeImage] ? (
+            <Image
+              alt="sunspot/skylive"
+              src={`data:image/jpeg;base64,${images[activeImage].src}`}
+            />
+          ) : (
+            <Empty description="Could not load image." />
+          )}
         </TwoImageCard>
+
         <CenteredCard title="Coronal Mass">
-          <Spin spinning={loading}>
+          {images["coronal-mass.jpg"].loading ? (
+            <Spin spinning={images["coronal-mass.jpg"].loading} />
+          ) : images["coronal-mass.jpg"].error ? (
+            <Button
+              onClick={() =>
+                setImages((prevState) => ({
+                  ...prevState,
+                  "coronal-mass.jpg": {
+                    src: prevState["coronal-mass.jpg"].src,
+                    loading: false,
+                    error: false,
+                    fallback: true,
+                  },
+                }))
+              }
+            >
+              Try old image
+            </Button>
+          ) : images["coronal-mass.jpg"].fallback &&
+            oldImages["coronal-mass.jpg"] ? (
             <Image
               alt="coronal-mass"
-              src={`data:image/jpeg;base64,${images["coronal-mass.jpg"]}`}
+              src={`data:image/jpeg;base64,${oldImages["coronal-mass.jpg"]}`}
             />
-          </Spin>
+          ) : oldImages["coronal-mass.jpg"] ? (
+            <Image
+              alt="coronal-mass"
+              src={`data:image/jpeg;base64,${images["coronal-mass.jpg"].src}`}
+            />
+          ) : (
+            <Empty description="Could not load image." />
+          )}
         </CenteredCard>
+
         <LineChartWrapper>
           <Spin spinning={loading}>
             <LineChart
@@ -190,12 +414,39 @@ const Scraper = () => {
             </LineChart>
           </Spin>
         </LineChartWrapper>
+
         <TopAlignedCard title="Far Side">
-          <Spin spinning={loading}></Spin>
-          <CenteredCardImage
-            alt="far-side"
-            src={`data:image/jpeg;base64,${images["far-side.jpg"]}`}
-          />
+          {images["far-side.jpg"].loading ? (
+            <Spin spinning={images["far-side.jpg"].loading} />
+          ) : images["far-side.jpg"].error ? (
+            <Button
+              onClick={() =>
+                setImages((prevState) => ({
+                  ...prevState,
+                  "far-side.jpg": {
+                    src: prevState["far-side.jpg"].src,
+                    loading: false,
+                    error: false,
+                    fallback: true,
+                  },
+                }))
+              }
+            >
+              Try old image
+            </Button>
+          ) : images["far-side.jpg"].fallback && oldImages["far-side.jpg"] ? (
+            <CenteredCardImage
+              alt="far-side"
+              src={`data:image/jpeg;base64,${oldImages["far-side.jpg"]}`}
+            />
+          ) : oldImages["far-side.jpg"] ? (
+            <CenteredCardImage
+              alt="far-side"
+              src={`data:image/jpeg;base64,${images["far-side.jpg"].src}`}
+            />
+          ) : (
+            <Empty description="Could not load image." />
+          )}
         </TopAlignedCard>
       </GridWrapper>
     </>
