@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
+import { DatePicker, message } from 'antd';
+import moment from 'moment';
 import AsteroidTable from "./AsteroidTable";
 
+const { RangePicker } = DatePicker;
+
 const DateSearch = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [jsonResponse, setjsonResponse] = useState("");
+  const [dates, setDates] = useState([moment(), moment()]);
+  const [jsonResponse, setJsonResponse] = useState("");
   const [visible, setVisible] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -19,8 +20,8 @@ const DateSearch = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          start_date: startDate.toISOString().split("T")[0],
-          end_date: endDate.toISOString().split("T")[0],
+          start_date: dates[0].toISOString().split("T")[0],
+          end_date: dates[1].toISOString().split("T")[0],
         }),
       };
 
@@ -33,17 +34,17 @@ const DateSearch = () => {
       const firstDate = Object.keys(data.near_earth_objects)[0];
       setVisible({ [firstDate]: true });
 
-      setjsonResponse(data);
+      setJsonResponse(data);
       setLoading(false);
     };
 
-    if (Math.abs(endDate - startDate) <= 7 * 24 * 60 * 60 * 1000) {
+    if (dates.length === 2 && Math.abs(dates[0] - dates[1]) <= 7 * 24 * 60 * 60 * 1000) {
       setError(null);
       fetchDate();
     } else {
       setError("The selected date range should not exceed 7 days.");
     }
-  }, [startDate, endDate]);
+  }, [dates]);
 
   const toggleVisibility = (date) => {
     setVisible((prevVisible) => ({
@@ -66,15 +67,22 @@ const DateSearch = () => {
         }}
       >
         <div>
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-          />
-        </div>
-        <div>
-          <DatePicker
-            selected={endDate}
-            onChange={(date) => setEndDate(date)}
+          <RangePicker
+            format="YYYY-MM-DD"
+            onChange={(dates, dateStrings) => {
+              if (dates) {
+                const diffInDays = moment(dates[1]).diff(moment(dates[0]), 'days');
+                if (diffInDays <= 7) {
+                  setDates(dates);
+                  setError(null);
+                } else {
+                  message.error("The selected date range should not exceed 7 days.");
+                  setError("The selected date range should not exceed 7 days.");
+                }
+              } else {
+                setDates([]);
+              }
+            }}
           />
           {error && <div style={{ color: "red" }}>{error}</div>}
         </div>
