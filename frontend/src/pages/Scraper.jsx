@@ -90,7 +90,8 @@ const TopAlignedCard = styled(Card)`
 `;
 
 const CenteredCardImage = styled.img`
-  max-width: 20vw;
+  max-width: 26vw;
+  min-height: 27vh;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -108,19 +109,7 @@ const Scraper = () => {
       .then((res) => res.json())
       .then((data) => {
         setImages(data.images);
-
-        const transformedGraphData = data.graphData.map((entry) => {
-          const lastCommaIndex = entry.lastIndexOf(",");
-          const timestampStr = entry.substring(0, lastCommaIndex).trim();
-          const date = parse(timestampStr, "EEEE, dd MMM., HH:mm", new Date());
-          const timestamp = format(date, "HH:mm");
-          return {
-            timestamp,
-            value: parseFloat(entry.substring(lastCommaIndex + 1)),
-          };
-        });
-
-        setGraphData(transformedGraphData);
+        setGraphData(data.graphData);
         setLoading(false);
       });
   }, []);
@@ -187,13 +176,13 @@ const Scraper = () => {
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" padding={{ right: 30 }} />
-              <YAxis dataKey="value" domain={[0.000001, "dataMax"]} />
+              <XAxis dataKey="hour" padding={{ right: 30 }} />
+              <YAxis dataKey="MeV" domain={[0.0000012,0.0000040]} />
               <Tooltip />
               <Legend />
               <Line
                 type="monotone"
-                dataKey="value"
+                dataKey="MeV"
                 stroke="#ec7967"
                 strokeWidth={2}
                 activeDot={{ r: 6 }}

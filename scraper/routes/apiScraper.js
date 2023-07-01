@@ -11,7 +11,9 @@ router.get("/all-images-and-aria-labels", async (req, res) => {
   const page = await browser.newPage();
 
   console.log("Browser opened");
-  await page.goto("https://www.spaceweatherlive.com/en/solar-activity.html", { timeout: 120000 });
+  await page.goto("https://www.spaceweatherlive.com/en/solar-activity.html", {
+    timeout: 120000,
+  });
   console.log("Page loaded");
 
   const images = [
@@ -27,7 +29,7 @@ router.get("/all-images-and-aria-labels", async (req, res) => {
   for (const img of images) {
     const imgUrl = await page.evaluate((selector) => {
       const img = document.querySelector(selector);
-      console.log(img.src+ " image source loop");
+      console.log(img.src + " image source loop");
       return img.src;
     }, img.selector);
 
@@ -55,6 +57,12 @@ router.get("/all-images-and-aria-labels", async (req, res) => {
   );
 
   cleanedLabels = cleanedLabels.slice(0, -3);
+  cleanedLabels = cleanedLabels.map((label) => {
+    const parts = label.split(",");
+    const hour = parts[2].trim();
+    const value = parseFloat(parts[3].trim());
+    return { hour, "MeV" :value };
+  });
 
   // Navigate to theskylive.com using the same page object
   await page.goto("https://theskylive.com/sun-info");
