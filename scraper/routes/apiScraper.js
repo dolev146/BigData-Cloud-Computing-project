@@ -1,5 +1,5 @@
 import express from "express";
-import fetchAll from "./fetchAll";
+import fetchAll from "./fetchAll.js";
 const router = express.Router();
 
 router.get("/all-images-and-aria-labels", async (req, res) => {
