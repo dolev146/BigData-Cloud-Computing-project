@@ -91,7 +91,7 @@ const TopAlignedCard = styled(Card)`
 
 const CenteredCardImage = styled.img`
   max-width: 26vw;
-  min-height: 27vh;
+  height: 24dvh;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -177,7 +177,7 @@ const Scraper = () => {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="hour" padding={{ right: 30 }} />
-              <YAxis dataKey="MeV" domain={[0.0000012,0.0000040]} />
+              <YAxis dataKey="MeV" domain={[0.0000012, 0.000004]} />
               <Tooltip />
               <Legend />
               <Line

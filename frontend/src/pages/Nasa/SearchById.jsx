@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Input, Button, Row, Col } from 'antd';
+import { Table, Input, Button, Row, Col } from "antd";
+const { Search } = Input;
 
 const SearchById = () => {
-  const [asteroidId, setAsteroidId] = useState(null);
+  const [asteroidId, setAsteroidId] = useState(2385423);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -26,41 +27,45 @@ const SearchById = () => {
   const handleSearchClick = () => {
     const value = document.getElementById("asteroidId").value;
     setAsteroidId(value);
-  }
+  };
 
   const columns = [
     {
-      title: 'Close Approach Date',
-      dataIndex: 'close_approach_date',
-      key: 'close_approach_date',
+      title: "Close Approach Date",
+      dataIndex: "close_approach_date",
+      key: "close_approach_date",
     },
     {
-      title: 'Orbiting Body',
-      dataIndex: 'orbiting_body',
-      key: 'orbiting_body',
+      title: "Orbiting Body",
+      dataIndex: "orbiting_body",
+      key: "orbiting_body",
     },
     {
-      title: 'Relative Velocity (km/h)',
-      dataIndex: 'relative_velocity',
-      key: 'relative_velocity',
-      render: text => text.kilometers_per_hour
+      title: "Relative Velocity (km/h)",
+      dataIndex: "relative_velocity",
+      key: "relative_velocity",
+      render: (text) => text.kilometers_per_hour,
     },
     {
-      title: 'Miss Distance (km)',
-      dataIndex: 'miss_distance',
-      key: 'miss_distance',
-      render: text => text.kilometers
+      title: "Miss Distance (km)",
+      dataIndex: "miss_distance",
+      key: "miss_distance",
+      render: (text) => text.kilometers,
     },
   ];
 
   if (!data) {
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Row>
-          <Col span={8}>
-            <Input id="asteroidId" placeholder="Enter asteroid id" />
-            <Button onClick={handleSearchClick} style={{width: '100%'}}>Search</Button>
-          </Col>
+          <div style={{ display: "flex" }}>
+            <div>
+              <Input id="asteroidId" placeholder="Enter asteroid id" />
+            </div>
+            <div>
+              <Button onClick={handleSearchClick}>Search</Button>
+            </div>
+          </div>
         </Row>
       </div>
     );
@@ -68,12 +73,16 @@ const SearchById = () => {
 
   return (
     <div>
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Row>
-          <Col span={8}>
-            <Input id="asteroidId" placeholder="Enter asteroid id" />
-            <Button onClick={handleSearchClick} style={{width: '100%'}}>Search</Button>
-          </Col>
+          <div style={{ display: "flex" }}>
+            <div>
+              <Input id="asteroidId" placeholder="Enter asteroid id" />
+            </div>
+            <div>
+              <Button onClick={handleSearchClick}>Search</Button>
+            </div>
+          </div>
         </Row>
       </div>
 
@@ -87,7 +96,11 @@ const SearchById = () => {
         {data.is_potentially_hazardous_asteroid ? "Yes" : "No"}
       </p>
 
-      <Table columns={columns} dataSource={data.close_approach_data} rowKey={record => record.epoch_date_close_approach} />
+      <Table
+        columns={columns}
+        dataSource={data.close_approach_data}
+        rowKey={(record) => record.epoch_date_close_approach}
+      />
     </div>
   );
 };

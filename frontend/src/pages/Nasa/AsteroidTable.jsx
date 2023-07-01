@@ -13,6 +13,11 @@ const AsteroidTable = ({ asteroids }) => {
       key: 'id',
     },
     {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
       title: 'Absolute Magnitude',
       dataIndex: 'absolute_magnitude_h',
       key: 'absolute_magnitude_h',
@@ -38,11 +43,6 @@ const AsteroidTable = ({ asteroids }) => {
       dataIndex: 'close_approach_date',
       key: 'close_approach_date',
       render: text => text[0].close_approach_date,
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
     }
   ];
 
