@@ -3,9 +3,20 @@ const router = express.Router();
 import puppeteer from "puppeteer";
 import fetch from "node-fetch";
 
+const images = [
+  { selector: "#SDO_512_0193", filename: "spaceweathersun.jpg" },
+  { selector: "#SDO_HMIIF_512", filename: "sunspot-regions.jpg" },
+  { selector: "#LASCO_C2", filename: "coronal-mass.jpg" },
+  { selector: "#SDO_512_0131", filename: "solarflares.jpg" },
+  { selector: "#EUVI195", filename: "far-side.jpg" },
+];
+
+
+let responseImages = {};
+
 router.get("/all-images-and-aria-labels", async (req, res) => {
   console.log("Starting scraper");
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: "new" });  
 
   // Navigate to spaceweatherlive.com
   const page = await browser.newPage();
@@ -14,15 +25,6 @@ router.get("/all-images-and-aria-labels", async (req, res) => {
   await page.goto("https://www.spaceweatherlive.com/en/solar-activity.html", { timeout: 120000 });
   console.log("Page loaded");
 
-  const images = [
-    { selector: "#SDO_512_0193", filename: "spaceweathersun.jpg" },
-    { selector: "#SDO_HMIIF_512", filename: "sunspot-regions.jpg" },
-    { selector: "#LASCO_C2", filename: "coronal-mass.jpg" },
-    { selector: "#SDO_512_0131", filename: "solarflares.jpg" },
-    { selector: "#EUVI195", filename: "far-side.jpg" },
-  ];
-
-  let responseImages = {};
 
   for (const img of images) {
     const imgUrl = await page.evaluate((selector) => {
