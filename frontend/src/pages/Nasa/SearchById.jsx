@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Table from "react-bootstrap/Table";
-import { Input, Button } from 'antd';
+import { Table, Input, Button, Row, Col } from 'antd';
 
 const SearchById = () => {
   const [asteroidId, setAsteroidId] = useState(null);
@@ -29,19 +28,54 @@ const SearchById = () => {
     setAsteroidId(value);
   }
 
+  const columns = [
+    {
+      title: 'Close Approach Date',
+      dataIndex: 'close_approach_date',
+      key: 'close_approach_date',
+    },
+    {
+      title: 'Orbiting Body',
+      dataIndex: 'orbiting_body',
+      key: 'orbiting_body',
+    },
+    {
+      title: 'Relative Velocity (km/h)',
+      dataIndex: 'relative_velocity',
+      key: 'relative_velocity',
+      render: text => text.kilometers_per_hour
+    },
+    {
+      title: 'Miss Distance (km)',
+      dataIndex: 'miss_distance',
+      key: 'miss_distance',
+      render: text => text.kilometers
+    },
+  ];
+
   if (!data) {
     return (
-      <div>
-        <Input id="asteroidId" placeholder="Enter asteroid id" />
-        <Button onClick={handleSearchClick}>Search</Button>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <Row>
+          <Col span={8}>
+            <Input id="asteroidId" placeholder="Enter asteroid id" />
+            <Button onClick={handleSearchClick} style={{width: '100%'}}>Search</Button>
+          </Col>
+        </Row>
       </div>
     );
   }
 
   return (
     <div>
-      <Input id="asteroidId" placeholder="Enter asteroid id" />
-      <Button onClick={handleSearchClick}>Search</Button>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <Row>
+          <Col span={8}>
+            <Input id="asteroidId" placeholder="Enter asteroid id" />
+            <Button onClick={handleSearchClick} style={{width: '100%'}}>Search</Button>
+          </Col>
+        </Row>
+      </div>
 
       <h1>{data.name}</h1>
       <p>ID: {data.id}</p>
@@ -53,26 +87,7 @@ const SearchById = () => {
         {data.is_potentially_hazardous_asteroid ? "Yes" : "No"}
       </p>
 
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Close Approach Date</th>
-            <th>Orbiting Body</th>
-            <th>Relative Velocity (km/h)</th>
-            <th>Miss Distance (km)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.close_approach_data.map((approach, index) => (
-            <tr key={index}>
-              <td>{approach.close_approach_date}</td>
-              <td>{approach.orbiting_body}</td>
-              <td>{approach.relative_velocity.kilometers_per_hour}</td>
-              <td>{approach.miss_distance.kilometers}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Table columns={columns} dataSource={data.close_approach_data} rowKey={record => record.epoch_date_close_approach} />
     </div>
   );
 };

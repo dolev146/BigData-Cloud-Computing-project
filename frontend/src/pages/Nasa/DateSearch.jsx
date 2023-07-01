@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { DatePicker, message } from 'antd';
 import moment from 'moment';
 import AsteroidTable from "./AsteroidTable";
@@ -6,7 +7,7 @@ import AsteroidTable from "./AsteroidTable";
 const { RangePicker } = DatePicker;
 
 const DateSearch = () => {
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState([moment(), moment()]);
   const [jsonResponse, setJsonResponse] = useState("");
   const [visible, setVisible] = useState({});
   const [error, setError] = useState(null);
