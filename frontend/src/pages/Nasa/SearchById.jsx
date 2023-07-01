@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
+import { Input, Button } from 'antd';
 
-const SearchById = ({ asteroidId }) => {
+const SearchById = () => {
+  const [asteroidId, setAsteroidId] = useState(null);
   const [data, setData] = useState(null);
 
   useEffect(() => {
+    if (!asteroidId) return;
+
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:9080/nasa-api/asteroids/3542519`
+          `http://localhost:9080/nasa-api/asteroids/${asteroidId}`
         );
         setData(response.data);
       } catch (error) {
@@ -20,12 +24,25 @@ const SearchById = ({ asteroidId }) => {
     fetchData();
   }, [asteroidId]);
 
+  const handleSearchClick = () => {
+    const value = document.getElementById("asteroidId").value;
+    setAsteroidId(value);
+  }
+
   if (!data) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Input id="asteroidId" placeholder="Enter asteroid id" />
+        <Button onClick={handleSearchClick}>Search</Button>
+      </div>
+    );
   }
 
   return (
     <div>
+      <Input id="asteroidId" placeholder="Enter asteroid id" />
+      <Button onClick={handleSearchClick}>Search</Button>
+
       <h1>{data.name}</h1>
       <p>ID: {data.id}</p>
       <p>
