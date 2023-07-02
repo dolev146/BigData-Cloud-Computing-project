@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Card, Button, Spin, Empty } from "antd";
+import { Card, Button, Spin, Empty, Image } from "antd";
 import {
   LineChart,
   Line,
@@ -40,7 +40,7 @@ const GridWrapper = styled.div`
   gap: 10px;
 `;
 
-const Image = styled.img`
+const StyledImage = styled(Image)`
   max-width: 20vw;
 `;
 
@@ -89,13 +89,9 @@ const TopAlignedCard = styled(Card)`
   }
 `;
 
-const CenteredCardImage = styled.img`
-  max-width: 26vw;
-  height: 24dvh;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const CenteredCardImage = styled(Image)`
+  max-width: 20vw;
+  min-height: 25vh;
 `;
 
 const Scraper = () => {
@@ -139,7 +135,12 @@ const Scraper = () => {
 
   useEffect(() => {
     fetch("http://localhost:5001/api/scraper/all-images-and-aria-labels")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch images");
+        }
+        return res.json();
+      })
       .then((data) => {
         setImages((prevState) => ({
           ...prevState,
@@ -246,30 +247,14 @@ const Scraper = () => {
         <CenteredCard title="Space Weather Sun">
           {images["spaceweathersun.jpg"].loading ? (
             <Spin spinning={images["spaceweathersun.jpg"].loading} />
-          ) : images["spaceweathersun.jpg"].error ? (
-            <Button
-              onClick={() =>
-                setImages((prevState) => ({
-                  ...prevState,
-                  "spaceweathersun.jpg": {
-                    src: prevState["spaceweathersun.jpg"].src,
-                    loading: false,
-                    error: false,
-                    fallback: true,
-                  },
-                }))
-              }
-            >
-              Try old image
-            </Button>
-          ) : images["spaceweathersun.jpg"].fallback &&
+          ) : images["spaceweathersun.jpg"].error &&
             oldImages["spaceweathersun.jpg"] ? (
-            <Image
+            <StyledImage
               alt="spaceweathersun"
               src={`data:image/jpeg;base64,${oldImages["spaceweathersun.jpg"]}`}
             />
-          ) : oldImages["spaceweathersun.jpg"] ? (
-            <Image
+          ) : !images["spaceweathersun.jpg"].error ? (
+            <StyledImage
               alt="spaceweathersun"
               src={`data:image/jpeg;base64,${images["spaceweathersun.jpg"].src}`}
             />
@@ -281,32 +266,26 @@ const Scraper = () => {
         <CenteredCard title="Solar Flares">
           {images["solarflares.jpg"].loading ? (
             <Spin spinning={images["solarflares.jpg"].loading} />
-          ) : images["solarflares.jpg"].error ? (
-            <Button
-              onClick={() =>
-                setImages((prevState) => ({
-                  ...prevState,
-                  "solarflares.jpg": {
-                    src: prevState["solarflares.jpg"].src,
-                    loading: false,
-                    error: false,
-                    fallback: true,
-                  },
-                }))
-              }
-            >
-              Try old image
-            </Button>
-          ) : images["solarflares.jpg"].fallback &&
+          ) : images["solarflares.jpg"].error &&
             oldImages["solarflares.jpg"] ? (
-            <Image
+            <StyledImage
               alt="solarflares"
               src={`data:image/jpeg;base64,${oldImages["solarflares.jpg"]}`}
             />
-          ) : oldImages["solarflares.jpg"] ? (
-            <Image
+          ) : !images["solarflares.jpg"].error ? (
+            <StyledImage
               alt="solarflares"
               src={`data:image/jpeg;base64,${images["solarflares.jpg"].src}`}
+              fallback={""} // Provide an empty string as fallback
+              onError={() =>
+                setImages((prevState) => ({
+                  ...prevState,
+                  "solarflares.jpg": {
+                    ...prevState["solarflares.jpg"],
+                    error: true,
+                  },
+                }))
+              }
             />
           ) : (
             <Empty description="Could not load image." />
@@ -325,29 +304,13 @@ const Scraper = () => {
           </Button>
           {images[activeImage].loading ? (
             <Spin spinning={images[activeImage].loading} />
-          ) : images[activeImage].error ? (
-            <Button
-              onClick={() =>
-                setImages((prevState) => ({
-                  ...prevState,
-                  [activeImage]: {
-                    src: prevState[activeImage].src,
-                    loading: false,
-                    error: false,
-                    fallback: true,
-                  },
-                }))
-              }
-            >
-              Try old image
-            </Button>
-          ) : images[activeImage].fallback && oldImages[activeImage] ? (
-            <Image
+          ) : images[activeImage].error && oldImages[activeImage] ? (
+            <StyledImage
               alt="sunspot/skylive"
               src={`data:image/jpeg;base64,${oldImages[activeImage]}`}
             />
-          ) : oldImages[activeImage] ? (
-            <Image
+          ) : !images[activeImage].error ? (
+            <StyledImage
               alt="sunspot/skylive"
               src={`data:image/jpeg;base64,${images[activeImage].src}`}
             />
@@ -359,30 +322,14 @@ const Scraper = () => {
         <CenteredCard title="Coronal Mass">
           {images["coronal-mass.jpg"].loading ? (
             <Spin spinning={images["coronal-mass.jpg"].loading} />
-          ) : images["coronal-mass.jpg"].error ? (
-            <Button
-              onClick={() =>
-                setImages((prevState) => ({
-                  ...prevState,
-                  "coronal-mass.jpg": {
-                    src: prevState["coronal-mass.jpg"].src,
-                    loading: false,
-                    error: false,
-                    fallback: true,
-                  },
-                }))
-              }
-            >
-              Try old image
-            </Button>
-          ) : images["coronal-mass.jpg"].fallback &&
+          ) : images["coronal-mass.jpg"].error &&
             oldImages["coronal-mass.jpg"] ? (
-            <Image
+            <StyledImage
               alt="coronal-mass"
               src={`data:image/jpeg;base64,${oldImages["coronal-mass.jpg"]}`}
             />
-          ) : oldImages["coronal-mass.jpg"] ? (
-            <Image
+          ) : !images["coronal-mass.jpg"].error ? (
+            <StyledImage
               alt="coronal-mass"
               src={`data:image/jpeg;base64,${images["coronal-mass.jpg"].src}`}
             />
@@ -401,7 +348,7 @@ const Scraper = () => {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="hour" padding={{ right: 30 }} />
-              <YAxis dataKey="MeV" domain={[0.0000012, 0.000004]} />
+              <YAxis dataKey="MeV" domain={[0.0000012, 0.000009]} />
               <Tooltip />
               <Legend />
               <Line
@@ -418,28 +365,12 @@ const Scraper = () => {
         <TopAlignedCard title="Far Side">
           {images["far-side.jpg"].loading ? (
             <Spin spinning={images["far-side.jpg"].loading} />
-          ) : images["far-side.jpg"].error ? (
-            <Button
-              onClick={() =>
-                setImages((prevState) => ({
-                  ...prevState,
-                  "far-side.jpg": {
-                    src: prevState["far-side.jpg"].src,
-                    loading: false,
-                    error: false,
-                    fallback: true,
-                  },
-                }))
-              }
-            >
-              Try old image
-            </Button>
-          ) : images["far-side.jpg"].fallback && oldImages["far-side.jpg"] ? (
+          ) : images["far-side.jpg"].error && oldImages["far-side.jpg"] ? (
             <CenteredCardImage
               alt="far-side"
               src={`data:image/jpeg;base64,${oldImages["far-side.jpg"]}`}
             />
-          ) : oldImages["far-side.jpg"] ? (
+          ) : !images["far-side.jpg"].error ? (
             <CenteredCardImage
               alt="far-side"
               src={`data:image/jpeg;base64,${images["far-side.jpg"].src}`}
