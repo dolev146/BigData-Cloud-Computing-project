@@ -151,24 +151,24 @@ const Simulator = () => {
       <Container>
         <StatisticRow>
           <StyledStatistic
-            title="Active Users"
+            title="Total Number of Events"
             value={numbers[0]}
             formatter={formatter}
           />
           <StyledStatistic
-            title="Account Balance (CNY)"
+            title="Total Number of Dangerous Events"
             value={numbers[1]}
             precision={2}
             formatter={formatter}
           />
           <StyledStatistic
-            title="Account Balance (CNY)"
+            title="Number of Events in the Last 24 Hours"
             value={numbers[2]}
             precision={2}
             formatter={formatter}
           />
           <StyledStatistic
-            title="Account Balance (CNY)"
+            title="Number of Events in the Last 7 Days"
             value={numbers[3]}
             precision={2}
             formatter={formatter}
