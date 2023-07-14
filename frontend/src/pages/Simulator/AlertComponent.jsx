@@ -28,32 +28,6 @@ const AlertComponent = () => {
 
   return (
     <StyledCard title="Alerts" >
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdfsjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf v sjakdfhjkl;sadfjlk;sdjfl;sdf v
-      sjakdfhjkl;sadfjlk;sdjfl;sdf
-      <var>sjakdfhjkl;sadfjlk;sdjfl;sdf</var>
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdfv
-      sjakdfhjkl;sadfjlk;sdjfl;sdf v sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf v
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdfsjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf
       {alerts.map((alert, index) => (
         <StyledAlert
           key={index}

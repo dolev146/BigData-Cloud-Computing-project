@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("\n\n\n\n\n\n\na user connected\n\n\n\n\n\n");
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
