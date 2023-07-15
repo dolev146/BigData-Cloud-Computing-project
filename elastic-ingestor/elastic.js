@@ -3,7 +3,7 @@ const elasticUrl = process.env.ELASTIC_URL || "http://localhost:9200";
 let esclient;
 const index = "stars";
 const maxAttempts = 5;
-const timeout = 3000; // milliseconds
+const timeout = 5000; // milliseconds
 
 /**
  * @function createIndex
