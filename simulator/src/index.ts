@@ -115,7 +115,7 @@ const main = async () => {
       getRandomNumberByMaxVal(numberOfStars)
     );
 
-    if (eventCounter % 100 === 0) {
+    if (eventCounter % 10 === 0) {
       eventToPublish = new CosmicEvent(3, starData);
     }
 

@@ -13,6 +13,7 @@ router.post("/asteroids", async (req, res) => {
   try {
     const startDate = req.body.start_date;
     const endDate = req.body.end_date;
+    console.log(startDate);
 
     const response = await axios.get("https://api.nasa.gov/neo/rest/v1/feed", {
       params: {

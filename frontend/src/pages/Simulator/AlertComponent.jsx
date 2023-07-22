@@ -17,10 +17,11 @@ const AlertComponent = () => {
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
-    const socket = io("http://localhost:9080");
+    const socket = io("http://localhost:3000");
 
-    socket.on("new-alert", (alert) => {
-      setAlerts((prevAlerts) => [...prevAlerts, alert]);
+    socket.on("alert", (alert) => {
+      console.log(alert);
+      setAlerts((prevAlerts) => [...prevAlerts, JSON.parse(alert)]);
     });
 
     return () => socket.disconnect();
@@ -28,39 +29,14 @@ const AlertComponent = () => {
 
   return (
     <StyledCard title="Alerts" >
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdfsjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf v sjakdfhjkl;sadfjlk;sdjfl;sdf v
-      sjakdfhjkl;sadfjlk;sdjfl;sdf
-      <var>sjakdfhjkl;sadfjlk;sdjfl;sdf</var>
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdfv
-      sjakdfhjkl;sadfjlk;sdjfl;sdf v sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf v
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdfsjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf sjakdfhjkl;sadfjlk;sdjfl;sdf
-      sjakdfhjkl;sadfjlk;sdjfl;sdf
       {alerts.map((alert, index) => (
         <StyledAlert
           key={index}
-          message={alert.title}
-          description={alert.description}
-          type="info"
+          message={alert.eventType}
+          description={`Source: ${alert.eventSource}, Urgency :${alert.urgency}`}
+          type= {alert.urgency > 4 ? "error" : "warning"}
           showIcon
+          closable
         />
       ))}
     </StyledCard>

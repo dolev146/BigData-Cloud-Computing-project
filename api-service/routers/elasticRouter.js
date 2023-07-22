@@ -1,5 +1,7 @@
 import { Router } from "express";
-import axios from "axios";
+// import axios from "axios";
+import { Client } from "@elastic/elasticsearch";
+const client = new Client({ node: "http://localhost:9200" });
 
 const router = Router();
 
@@ -41,14 +43,32 @@ router.get("/searchByObservatoryAndDate", async (req, res) => {
 router.get("/searchByIdAndDate", async (req, res) => {
   const { id, startDate, endDate } = req.query;
 
-  // const url = `http://localhost:9200/your_index/_search?q=id:${id} AND date:>=${startDate} AND date:<=${endDate}`;
+  // Convert date to timestamp
+  const startDateTimestamp = new Date(startDate).getTime();
+  const endDateTimestamp = new Date(endDate).getTime();
 
   try {
-    // const response = await axios.get(url);
-    // res.json(response.data);
-    res.json({
-      dummyData: "dummyData1111",
+    const response = await client.search({
+      index: "stars",
+      body: {
+        query: {
+          bool: {
+            filter: [
+              { term: { _id: id } },
+              {
+                range: {
+                  "_source.eventTS": {
+                    gte: startDateTimestamp,
+                    lte: endDateTimestamp
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
+    res.json(response.body);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

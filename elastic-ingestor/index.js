@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { Kafka } = require("kafkajs");
 const elastic = require("./elastic");
+const { server, io } = require("./alertServer");
 
 const kafka_connection = new Kafka({
   clientId: "my-app",
@@ -25,6 +26,11 @@ const run = async () => {
   await consumer.run({
     eachMessage: async (messagePayload) => {
       const { topic, partition, message } = messagePayload;
+
+      const parsedMessage = JSON.parse(message.value.toString());
+      if (parsedMessage.urgency > 1) {
+        io.emit("alert", message.value.toString());
+      }
 
       elastic
         .getClient()
@@ -55,6 +61,10 @@ const main = async () => {
   if (!elasticIndex.body) {
     await elastic.createIndex(elastic.index);
   }
+
+  server.listen(3000, () => {
+    console.log("listening on *:3000");
+  });
 
   run()
     .then((res) => console.log(res))

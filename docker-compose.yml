@@ -27,8 +27,6 @@ services:
       - REDIS_PORT=6379
       - ELASTICSEARCH_HOST=elasticsearch
       - ELASTICSEARCH_PORT=9200
-      - KAFKA_HOST=kafka
-      - KAFKA_PORT=9092
     depends_on:
       - redis
       - elasticsearch
@@ -42,12 +40,17 @@ services:
     container_name: simulator
     env_file:
       - simulator/.env
+    depends_on:
+      - redis
+      - elasticsearch
     
   elastic-ingestor:
     build:
       context: ./elastic-ingestor
       dockerfile: Dockerfile
     container_name: elastic-ingestor
+    ports:
+      - "3000:3000"
     env_file:
       - elastic-ingestor/.env
     depends_on:
