@@ -3,7 +3,7 @@
   /* margin: 0 auto; */
   padding: 2rem;
   text-align: center;
-  border: 1px solid   black;
+  border: 1px solid black;
 }
 
 .logo {
@@ -40,4 +40,24 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.item-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.item-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.item-exit {
+  opacity: 1;
+}
+
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
 }
