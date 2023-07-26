@@ -7,10 +7,10 @@ const { RangePicker } = DatePicker;
 
 const DateSearch = () => {
   const [dates, setDates] = useState([moment(), moment()]);
-  const [jsonResponse, setJsonResponse] = useState("");
-  const [visible, setVisible] = useState({});
+  const [dataToDisplay, setDataToDisplay] = useState([]); // add this line
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [eventsPerDate, setEventsPerDate] = useState({});
 
   useEffect(() => {
     const fetchDate = async () => {
@@ -30,10 +30,27 @@ const DateSearch = () => {
       );
       const data = await response.json();
 
-      const firstDate = Object.keys(data.near_earth_objects)[0];
-      setVisible({ [firstDate]: true });
+      
+      let merged_data = []
+      let eventsPerDate = {}
+      
+      for (const [date, dataForDate] of Object.entries(data.near_earth_objects)) {
+        merged_data.push(...dataForDate)
+        eventsPerDate[date] = dataForDate.length
+      }
 
-      setJsonResponse(data);
+      eventsPerDate = Object.keys(eventsPerDate).sort((a,b)=> new Date(a)>new Date(b)).reduce(
+        (obj, key) => { 
+          obj[key] = eventsPerDate[key]; 
+          return obj;
+        }, 
+        {}
+      );
+      merged_data = merged_data.sort((a, b) => {new Date(a.close_approach_data[0].close_approach_date) > new Date(b.close_approach_data[0].close_approach_date) ? 1 : -1})
+      console.log(merged_data, "MERGED DATA") 
+      setDataToDisplay(merged_data)
+      setEventsPerDate(eventsPerDate)
+
       setLoading(false);
     };
 
@@ -47,13 +64,6 @@ const DateSearch = () => {
       setError("The selected date range should not exceed 7 days.");
     }
   }, [dates]);
-
-  const toggleVisibility = (date) => {
-    setVisible((prevVisible) => ({
-      ...prevVisible,
-      [date]: !prevVisible[date],
-    }));
-  };
 
   if (loading) {
     return (
@@ -106,26 +116,15 @@ const DateSearch = () => {
         </div>
       </div>
       <div>
-        {jsonResponse && jsonResponse.element_count > 0
-          ? `Total objects: ${jsonResponse.element_count}`
-          : ""}
-      </div>
+      {eventsPerDate &&
+        Object.entries(eventsPerDate).map(([date, numberOfEvents]) => (
+          <div key={date}>
+            {`Date: ${date}, Number of Events: ${numberOfEvents}`}
+          </div>
+        ))}
+    </div>
       <div>
-        {jsonResponse?.near_earth_objects
-          ? Object.entries(jsonResponse.near_earth_objects).map(
-              ([date, asteroids]) => {
-                return (
-                  <React.Fragment key={date}>
-                    <h2 onClick={() => toggleVisibility(date)}>
-                      {date}: {asteroids.length} objects{" "}
-                      {visible[date] ? "▼" : "▶"}
-                    </h2>
-                    {visible[date] && <AsteroidTable asteroids={asteroids} />}
-                  </React.Fragment>
-                );
-              }
-            )
-          : ""}
+        <AsteroidTable asteroids={dataToDisplay} />
       </div>
     </div>
   );
