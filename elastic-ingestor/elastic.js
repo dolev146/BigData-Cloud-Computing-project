@@ -1,7 +1,7 @@
 const { Client } = require("@elastic/elasticsearch");
 const elasticUrl = process.env.ELASTIC_URL || "http://localhost:9200";
 let esclient;
-const index = "stars";
+const index = "stars";E
 const maxAttempts = 5;
 const timeout = 5000; // milliseconds
 

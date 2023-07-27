@@ -68,6 +68,8 @@ const StyledStatistic = styled(Statistic)`
 
 const formatter = (value) => <CountUp end={value} separator="," />;
 
+
+
 const Simulator = () => {
   const [numbers, setNumbers] = useState([0, 0, 0, 0]);
   const [Observatories, setObservatories] = useState([
@@ -76,6 +78,19 @@ const Simulator = () => {
     { ObservatoryName: "", NumberOfEvents: "" },
     { ObservatoryName: "", NumberOfEvents: "" },
   ]);
+
+  const fetchObservatories = async () => {
+    try {
+      const response = await fetch("http://localhost:9080/elastic-api/observatories")
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setObservatories(data);
+    } catch (error) {
+      setObservatories([]);
+    }
+  }
 
   useEffect(() => {
     fetch("http://localhost:9080/elastic-api/stats")
@@ -96,23 +111,23 @@ const Simulator = () => {
           error
         );
       });
-
-    fetch("http://localhost:9080/elastic-api/observatories")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setObservatories(data); // assuming the response data is an array of observatory data
-      })
-      .catch((error) => {
+      
+      fetchObservatories().catch((error) => {
         console.error(
           "There has been a problem with your fetch operation:",
           error
         );
       });
+
+      setInterval(() => {
+        fetchObservatories().catch((error) => {
+          console.error(
+            "There has been a problem with your fetch operation:",
+            error
+          );
+        });
+      },5000);
+      
   }, []);
 
   return (
