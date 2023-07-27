@@ -68,7 +68,6 @@ const FirstAlert = ({ message, description, type, index, onCloseFnc }) => {
             icon={faX}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              console.log("clicked");
               handleClose(index);
             }}
           />

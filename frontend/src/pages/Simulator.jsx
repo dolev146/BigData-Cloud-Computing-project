@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Statistic } from "antd";
+import { Card, Statistic } from "antd";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import CountUp from "react-countup";
 import InformationComponent from "./Simulator/InformationComponent";
@@ -8,11 +8,11 @@ import AlertComponent from "./Simulator/AlertComponent";
 
 const StyledHeader = styled.header`
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
   font-size: 2.5rem;
   color: #001529;
   background: #f0f2f5;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const Container = styled.div`
@@ -38,7 +38,9 @@ const ContentRow = styled.div`
   margin-top: 3dvh; // add this line
 `;
 
-const ChartAlertContainer = styled.div`
+const AlertContainer = styled.div`
+  /* margin-bottom: 1.5rem; // add this line for space */
+  /* give a light bottom border that it will look seperated */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -47,9 +49,8 @@ const ChartAlertContainer = styled.div`
 `;
 
 const ChartContainer = styled.div`
-  background-color: #feae01;
+  background-color: #ffffff;
   padding: 50px 0 30px;
-  margin-bottom: 2rem; // add this line for space
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `;
 
@@ -86,12 +87,7 @@ const Simulator = () => {
       })
       .then((data) => {
         // Make sure to update this part to match the actual structure of your data
-        const stats = [
-          data.number1,
-          data.number2,
-          data.number3,
-          data.number4
-        ];
+        const stats = [data.number1, data.number2, data.number3, data.number4];
         setNumbers(stats);
       })
       .catch((error) => {
@@ -100,53 +96,28 @@ const Simulator = () => {
           error
         );
       });
-/* 
-    setObservatories([
-      {
-        ObservatoryName: "Observatory 1",
-        NumberOfEvents: 10,
-        NumberOfDangerousEvents: 5,
-      },
-      {
-        ObservatoryName: "Observatory 2",
-        NumberOfEvents: 12,
-        NumberOfDangerousEvents: 6,
-      },
-      {
-        ObservatoryName: "Observatory 3",
-        NumberOfEvents: 15,
-        NumberOfDangerousEvents: 2,
-      },
-      {
-        ObservatoryName: "Observatory 4",
-        NumberOfEvents: 20,
-        NumberOfDangerousEvents: 9,
-      },
-    ]); */
 
-
-    fetch('http://localhost:9080/elastic-api/observatories')
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setObservatories(data); // assuming the response data is an array of observatory data
-    })
-    .catch((error) => {
-      console.error(
-        'There has been a problem with your fetch operation:',
-        error
-      );
-    });
-
+    fetch("http://localhost:9080/elastic-api/observatories")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setObservatories(data); // assuming the response data is an array of observatory data
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      });
   }, []);
 
   return (
     <div>
-      <StyledHeader>Simulator Elastic Search Dashboard</StyledHeader>
+      <StyledHeader>Cosmic Events Dashboard</StyledHeader>
 
       <Container>
         <StatisticRow>
@@ -178,30 +149,32 @@ const Simulator = () => {
         <ContentRow>
           <InformationComponent />
 
-          <ChartAlertContainer>
-            <ChartContainer>
-              <BarChart
-                width={600}
-                height={300}
-                data={Observatories}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <XAxis dataKey="ObservatoryName" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="NumberOfEvents" fill="#CB2A7B" />
-                <Bar dataKey="NumberOfDangerousEvents" fill="#844191" />
-              </BarChart>
-            </ChartContainer>
-
+          <AlertContainer>
             <AlertComponent />
-          </ChartAlertContainer>
+
+            <ChartContainer>
+              <Card title="Event Per Observatory" >
+                <BarChart
+                  width={600}
+                  height={300}
+                  data={Observatories}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <XAxis dataKey="ObservatoryName" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="NumberOfEvents" fill="#CB2A7B" />
+                  <Bar dataKey="NumberOfDangerousEvents" fill="#844191" />
+                </BarChart>
+              </Card>
+            </ChartContainer>
+          </AlertContainer>
         </ContentRow>
       </Container>
     </div>

@@ -8,11 +8,11 @@ import { Radio } from "antd";
 
 const StyledHeader = styled.header`
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
   font-size: 2.5rem;
   color: #001529;
   background: #f0f2f5;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const NasaComponent = () => {

@@ -7,8 +7,9 @@ import Alert2Component from "./Alert2Component";
 import FirstAlert from "./FirstAlert";
 
 const StyledCard = styled(Card)`
-  height: 30vh;
+  height: 31vh;
   overflow-y: auto;
+  border-bottom: 1px solid #00000020;
 `;
 const socket = io("http://localhost:3000");
 
@@ -19,7 +20,6 @@ const AlertComponent = () => {
 
   useEffect(() => {
     socket.on("alert", (alert) => {
-      console.log(JSON.parse(alert));
       setAlerts((prevAlerts) => {
         const newAlerts = [JSON.parse(alert), ...prevAlerts];
         localStorage.setItem("alerts", JSON.stringify(newAlerts));
@@ -30,11 +30,9 @@ const AlertComponent = () => {
   }, []);
 
   const onCloseFnc = (index) => {
-    console.log(index, "I was closed.");
     setAlerts((prevAlerts) => {
       const newAlerts = [...prevAlerts];
       newAlerts.splice(index, 1);
-      console.log(newAlerts);
       localStorage.setItem("alerts", JSON.stringify(newAlerts));
       return newAlerts;
     });

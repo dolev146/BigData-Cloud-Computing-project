@@ -19,7 +19,6 @@ const InformationByDate = () => {
 
       try {
         const res = await axios.get(url);
-        console.log("res", res.data);
         setData(
           res.data.hits.hits.map((hit, index) => ({
             ...hit._source,
