@@ -23,10 +23,9 @@ const HeaderColorAnimation = keyframes`
 
 const StyledHeader = styled.h1`
   text-align: center;
-  color: white;
+  color: #000000;
   padding: 20px;
   margin-bottom: 40px;
-  animation: ${HeaderColorAnimation} 5s infinite;
 `;
 
 const InformationComponent = () => {

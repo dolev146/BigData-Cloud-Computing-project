@@ -27,7 +27,6 @@ const InformationByObservatoryandByDate = () => {
 
     try {
       const res = await axios.get(url);
-      console.log(res.data.hits.hits);
       setData(res.data.hits.hits);
       setSpinning(false);
     } catch (error) {
@@ -45,7 +44,6 @@ const InformationByObservatoryandByDate = () => {
 
       try {
         const res = await axios.get(url);
-        console.log("by observatory and date result ", res.data.hits.hits);
         setData(res.data.hits.hits);
         setSpinning(false);
       } catch (error) {
