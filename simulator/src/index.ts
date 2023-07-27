@@ -4,7 +4,7 @@ import { KafkaHandler } from "./kafka-handler";
 import { ingestCatalogToRedis, getStarObjectByKey } from "./redis-data-handler";
 import { Star } from "./starInterface";
 
-const MESSAGES_PER_MIN = 10;
+const MESSAGES_PER_MIN = 100;
 const MILISECONDS_IN_MIN = 60000;
 const DELAY = MILISECONDS_IN_MIN / MESSAGES_PER_MIN;
 let numberOfStars = 0;
