@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import { Card, Statistic } from "antd";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Pie } from "recharts";
 import CountUp from "react-countup";
 import InformationComponent from "./Simulator/InformationComponent";
 import styled from "styled-components";
 import AlertComponent from "./Simulator/AlertComponent";
+import PieChartComponent from "./Simulator/PieChartComponent";
+
+const data = [
+  { name: "Group A", value: 400 },
+  { name: "Group B", value: 300 },
+  { name: "Group C", value: 300 },
+  { name: "Group D", value: 200 },
+];
 
 const StyledHeader = styled.header`
   text-align: center;
@@ -68,8 +76,6 @@ const StyledStatistic = styled(Statistic)`
 
 const formatter = (value) => <CountUp end={value} separator="," />;
 
-
-
 const Simulator = () => {
   const [numbers, setNumbers] = useState([0, 0, 0, 0]);
   const [Observatories, setObservatories] = useState([
@@ -81,7 +87,9 @@ const Simulator = () => {
 
   const fetchObservatories = async () => {
     try {
-      const response = await fetch("http://localhost:9080/elastic-api/observatories")
+      const response = await fetch(
+        "http://localhost:9080/elastic-api/observatories"
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -90,7 +98,7 @@ const Simulator = () => {
     } catch (error) {
       setObservatories([]);
     }
-  }
+  };
 
   useEffect(() => {
     fetch("http://localhost:9080/elastic-api/stats")
@@ -111,23 +119,22 @@ const Simulator = () => {
           error
         );
       });
-      
+
+    fetchObservatories().catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
+
+    setInterval(() => {
       fetchObservatories().catch((error) => {
         console.error(
           "There has been a problem with your fetch operation:",
           error
         );
       });
-
-      setInterval(() => {
-        fetchObservatories().catch((error) => {
-          console.error(
-            "There has been a problem with your fetch operation:",
-            error
-          );
-        });
-      },5000);
-      
+    }, 5000);
   }, []);
 
   return (
@@ -168,7 +175,7 @@ const Simulator = () => {
             <AlertComponent />
 
             <ChartContainer>
-              <Card title="Event Per Observatory" >
+              <Card title="Event Per Observatory">
                 <BarChart
                   width={600}
                   height={300}
@@ -184,14 +191,27 @@ const Simulator = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="NumberOfEvents" fill="#CB2A7B" />
-                  <Bar dataKey="NumberOfDangerousEvents" fill="#844191" />
+                  <Bar dataKey="NumberOfEvents" fill="#1677ff" />
+                  <Bar dataKey="NumberOfDangerousEvents" fill="#e30f79" />
                 </BarChart>
               </Card>
             </ChartContainer>
           </AlertContainer>
         </ContentRow>
       </Container>
+      <PieChartComponent
+        cx={200}
+        cy={200}
+        midAngle={45}
+        innerRadius={60}
+        outerRadius={80}
+        startAngle={0}
+        endAngle={360}
+        fill="#8884d8"
+        payload={{ name: "Group A", value: 400 }}
+        percent={0.25}
+        value={100}
+      />
     </div>
   );
 };

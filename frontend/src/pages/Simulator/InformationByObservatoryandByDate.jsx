@@ -139,13 +139,13 @@ const InformationByObservatoryandByDate = () => {
         <Space.Compact style={{ width: "30%" }}>
           <Input
             defaultValue=""
-            placeholder="Observatory Name"
+            placeholder="Event Source"
             value={observatoryName}
             onChange={(e) => setObservatoryName(e.target.value)}
           />
           <Button
             onClick={() => handleSubmit()}
-            style={{ backgroundColor: "#9815bc", color: "white" }}
+            style={{ backgroundColor: "#1677ff", color: "white" }}
           >
             Submit
           </Button>
@@ -153,7 +153,7 @@ const InformationByObservatoryandByDate = () => {
       </div>
       {data && (
         <Spin spinning={spinning}>
-          <Card title="Information By Observatory and by Date">
+          <Card title="Information By Event Source and by Date">
             <Table
               dataSource={data}
               columns={columns}

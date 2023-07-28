@@ -69,7 +69,7 @@ const InfromationByIDandDate = () => {
           <Input defaultValue="" placeholder="ID Name" value={ID} />
           <Button
             onClick={() => handleSubmit()}
-            style={{ backgroundColor: "#9815bc", color: "white" }}
+            style={{ backgroundColor: "#1677ff", color: "white" }}
           >
             Submit
           </Button>
