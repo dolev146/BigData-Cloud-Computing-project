@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Card, Statistic } from "antd";
+import { Button, Card, Statistic, Switch } from "antd";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Pie } from "recharts";
 import CountUp from "react-countup";
 import InformationComponent from "./Simulator/InformationComponent";
 import styled from "styled-components";
 import AlertComponent from "./Simulator/AlertComponent";
 import PieChartComponent from "./Simulator/PieChartComponent";
-
 
 const StyledHeader = styled.header`
   text-align: center;
@@ -54,6 +53,19 @@ const ChartContainer = styled.div`
   background-color: #ffffff;
   padding: 50px 0 30px;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+`;
+
+const StyledCard = styled(Card)`
+  .switch-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  .Toggle-Updates {
+    position: absolute;
+    right: 90px;
+    top: 20px;
+  }
 `;
 
 // Define a styled Statistic component
@@ -119,7 +131,7 @@ const Simulator = () => {
         "There has been a problem with your fetch operation:",
         error
       );
-    },[]);
+    }, []);
 
     setInterval(() => {
       fetchObservatories().catch((error) => {
@@ -130,6 +142,21 @@ const Simulator = () => {
       });
     }, 5000);
   }, []);
+
+  const onChange = (checked) => {
+    if (checked) {
+      setInterval(() => {
+        fetchObservatories().catch((error) => {
+          console.error(
+            "There has been a problem with your fetch operation:",
+            error
+          );
+        });
+      }, 5000);
+    } else {
+      clearInterval();
+    }
+  };
 
   return (
     <div>
@@ -163,13 +190,19 @@ const Simulator = () => {
         </StatisticRow>
 
         <ContentRow>
-          <InformationComponent />
+          <PieChartComponent />
 
           <AlertContainer>
             <AlertComponent />
 
             <ChartContainer>
-              <Card title="Event Per Observatory">
+              <StyledCard title="Event Per Observatory">
+                <Switch
+                  className="switch-button"
+                  defaultChecked
+                  onChange={onChange}
+                />
+                <span className="Toggle-Updates">Toggle Real-Time Updates</span>
                 <BarChart
                   width={600}
                   height={300}
@@ -185,27 +218,16 @@ const Simulator = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="NumberOfEvents" fill="#1677ff" />
-                  <Bar dataKey="NumberOfDangerousEvents" fill="#e30f79" />
+                  <Bar dataKey="NumberOfEvents" fill="#71A7EE" />
+                  <Bar dataKey="NumberOfDangerousEvents" fill="#FB3640" />
                 </BarChart>
-              </Card>
+              </StyledCard>
             </ChartContainer>
           </AlertContainer>
         </ContentRow>
       </Container>
-      <PieChartComponent
-        cx={200}
-        cy={200}
-        midAngle={45}
-        innerRadius={60}
-        outerRadius={80}
-        startAngle={0}
-        endAngle={360}
-        fill="#8884d8"
-        payload={{ name: "Group A", value: 400 }}
-        percent={0.25}
-        value={100}
-      />
+      <InformationComponent />
+      {/* <PieChartComponent /> */}
     </div>
   );
 };

@@ -11,26 +11,40 @@ import {
   Legend,
 } from "recharts";
 
-const LineChartWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const LineChartWrapper = styled(Card)`
+  display: grid; // Change flex to grid
+  grid-template-rows: auto 1fr; // Define grid areas
+  gap: 1rem; // Space between grid rows
+
+  .ant-card-head {
+    grid-row: 1; // Title in the first row
+  }
+
+  .ant-card-body {
+    grid-row: 2; // Content in the second row
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `;
 
 const CenteredCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  display: grid; // Change flex to grid
+  grid-template-rows: auto 1fr; // Define grid areas
+  gap: 0.2rem; // Space between grid rows
+
+  .ant-card-head {
+    grid-row: 1; // Title in the first row
+  }
 
   .ant-card-body {
+    grid-row: 2; // Content in the second row
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
   }
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `;
 
 const GridWrapper = styled.div`
@@ -40,15 +54,16 @@ const GridWrapper = styled.div`
 `;
 
 const StyledImage = styled(Image)`
-  max-width: 20vw;
+  max-width: 25vw;
+  max-height: 30vh;
+  border-radius: 50%;
 `;
 
 const TwoImageCard = styled(Card)`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
-  text-align: center;
 
   .ant-card-body {
     display: flex;
@@ -63,6 +78,8 @@ const TwoImageCard = styled(Card)`
     right: 10px;
     top: 10px;
   }
+
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `;
 
 const StyledHeader = styled.header`
@@ -75,22 +92,27 @@ const StyledHeader = styled.header`
 `;
 
 const TopAlignedCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; // aligns content to the top
+  display: grid; // Change flex to grid
+  grid-template-rows: auto 1fr; // Define grid areas
+  gap: 0.2rem; // Space between grid rows
+
+  .ant-card-head {
+    grid-row: 1; // Title in the first row
+  }
 
   .ant-card-body {
+    grid-row: 2; // Content in the second row
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start; // aligns content within the card body to the top
+    justify-content: center;
   }
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `;
 
 const CenteredCardImage = styled(Image)`
-  max-width: 20vw;
-  min-height: 25vh;
+  max-width: 30vw;
+  min-height: 30vh;
+  border-radius: 3rem;
 `;
 
 const Scraper = () => {
@@ -337,11 +359,11 @@ const Scraper = () => {
           )}
         </CenteredCard>
 
-        <LineChartWrapper>
+        <LineChartWrapper title="Solar Xray graph">
           <Spin spinning={loading}>
             <LineChart
               width={600}
-              height={400}
+              height={320}
               data={graphData}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >

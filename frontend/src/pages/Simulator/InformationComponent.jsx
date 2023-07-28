@@ -7,18 +7,15 @@ import InfromationByIDandDate from "./InfromationByIDandDate";
 
 const StyledInformationComponent = styled.div`
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  margin-top: 4rem;
+  margin-bottom: 8rem;
+  min-height: 700px; // Set a minimum height, adjust as needed
 `;
 
 const StyledRadioGroup = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-`;
-
-const HeaderColorAnimation = keyframes`
-  0% { background-color: #4a90e2; }
-  50% { background-color: #8e44ad; }
-  100% { background-color: #4a90e2; }
 `;
 
 const StyledHeader = styled.h1`
