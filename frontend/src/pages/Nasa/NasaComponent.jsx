@@ -5,6 +5,7 @@ import RadioButtons from "./RadioButtons";
 import SearchById from "./SearchById";
 import styled from "styled-components";
 import { Radio } from "antd";
+import NasaChart from "./NasaChart";
 
 const StyledHeader = styled.header`
   text-align: center;
@@ -25,6 +26,9 @@ const NasaComponent = () => {
   return (
     <div>
       <StyledHeader>Near Earth Objects Dashboard</StyledHeader>
+      <div>
+        <NasaChart />
+      </div>
       <Radio.Group
         buttonStyle="solid"
         style={{

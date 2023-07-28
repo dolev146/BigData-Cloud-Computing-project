@@ -10,6 +10,7 @@ const FlexContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 16px;
 `;
 
 const CardContainer = styled(Card)`
@@ -149,7 +150,7 @@ const DateSearch = () => {
           {error && <div style={{ color: "red" }}>{error}</div>}
         </>
       </FlexContainer>
-      <FlexWrapContainer>
+      {/* <FlexWrapContainer>
         {eventsPerDate &&
           Object.entries(eventsPerDate).map(([date, numberOfEvents]) => (
             <CardContainer key={date}>
@@ -162,7 +163,7 @@ const DateSearch = () => {
               </NormalText>
             </CardContainer>
           ))}
-      </FlexWrapContainer>
+      </FlexWrapContainer> */}
       <div>
         <AsteroidTable asteroids={dataToDisplay} />
       </div>
