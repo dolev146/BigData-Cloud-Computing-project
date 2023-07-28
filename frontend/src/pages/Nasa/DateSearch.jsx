@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DatePicker, message, Spin, Card } from "antd"; // import Spin from antd
+import { DatePicker, message, Spin, Card } from "antd";
 import moment from "moment";
 import AsteroidTable from "./AsteroidTable";
 import styled from "styled-components";
@@ -13,44 +13,25 @@ const FlexContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const CardContainer = styled(Card)`
-  margin-top: 16px;
-  border: none;
-  cursor: default;
-  width: 270px; // fixed width
-  margin: 8px; // give it a margin to separate each card
-  // shadow and a little border
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  border-radius: 1rem;
-`;
-
-const FlexWrapContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap; // allow for the elements to wrap
-  align-items: center;
-`;
-
-const BoldText = styled.div`
-  text-align: center;
-  font-weight: bold;
-  font-size: 18px;
-`;
-
-const NormalText = styled.div`
-  text-align: center;
-  font-size: 16px;
-`;
-
 const DateSearch = () => {
   const [dates, setDates] = useState([moment(), moment()]);
-  const [dataToDisplay, setDataToDisplay] = useState([]); // add this line
+  const [dataToDisplay, setDataToDisplay] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [eventsPerDate, setEventsPerDate] = useState({});
+
+  const searchKey = "SEARCH_" + dates[0].toISOString().split("T")[0] + dates[1].toISOString().split("T")[0];
 
   useEffect(() => {
     const fetchDate = async () => {
       setLoading(true);
+
+      let storedData = localStorage.getItem(searchKey);
+      if (storedData) {
+        setDataToDisplay(JSON.parse(storedData));
+        setLoading(false);
+        return;
+      }
+
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,30 +48,26 @@ const DateSearch = () => {
       const data = await response.json();
 
       let merged_data = [];
-      let eventsPerDate = {};
-
-      for (const [date, dataForDate] of Object.entries(
-        data.near_earth_objects
-      )) {
+      for (const dataForDate of Object.values(data.near_earth_objects)) {
         merged_data.push(...dataForDate);
-        eventsPerDate[date] = dataForDate.length;
       }
 
-      eventsPerDate = Object.keys(eventsPerDate)
-        .sort((a, b) => new Date(a) > new Date(b))
-        .reduce((obj, key) => {
-          obj[key] = eventsPerDate[key];
-          return obj;
-        }, {});
       merged_data = merged_data.sort(
         (a, b) =>
           new Date(a.close_approach_data[0].close_approach_date) -
           new Date(b.close_approach_data[0].close_approach_date)
       );
 
-      console.log(merged_data, "MERGED DATA");
       setDataToDisplay(merged_data);
-      setEventsPerDate(eventsPerDate);
+
+      // Trim the local storage if it has more than 10 search items.
+      const searchKeys = Object.keys(localStorage).filter(key => key.startsWith("SEARCH_"));
+      while (searchKeys.length > 10) {
+        localStorage.removeItem(searchKeys.shift());
+      }
+
+      // Save the new search results to local storage.
+      localStorage.setItem(searchKey, JSON.stringify(merged_data));
 
       setLoading(false);
     };
@@ -116,7 +93,7 @@ const DateSearch = () => {
           height: "100vh",
         }}
       >
-        <Spin tip="Loading..." size="large" /> {/* return the Spin component */}
+        <Spin tip="Loading..." size="large" />
       </div>
     );
   }
@@ -150,20 +127,6 @@ const DateSearch = () => {
           {error && <div style={{ color: "red" }}>{error}</div>}
         </>
       </FlexContainer>
-      {/* <FlexWrapContainer>
-        {eventsPerDate &&
-          Object.entries(eventsPerDate).map(([date, numberOfEvents]) => (
-            <CardContainer key={date}>
-              <BoldText>
-                Date: <span style={{ color: "#1890ff" }}>{date}</span>
-              </BoldText>
-              <NormalText>
-                Number of Events:{" "}
-                <span style={{ color: "#ff4d4f" }}>{numberOfEvents}</span>
-              </NormalText>
-            </CardContainer>
-          ))}
-      </FlexWrapContainer> */}
       <div>
         <AsteroidTable asteroids={dataToDisplay} />
       </div>
