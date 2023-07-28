@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { format, parse } from "date-fns";
 
 const LineChartWrapper = styled.div`
   display: flex;
