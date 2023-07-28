@@ -110,7 +110,7 @@ const main = async () => {
   console.log("starting to generate events");
 
   while (true) {
-    let priority = getRandomNumberByMaxVal(2);
+    let priority = getRandomNumberByMaxVal(3);
     const starData: Star = await getStarObjectByKey(
       getRandomNumberByMaxVal(numberOfStars)
     );

@@ -1,35 +1,55 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import PieChartDetailed from "./PieChartDetailed";
-const items = [
-  {
-    label: <p>Group By Event Type</p>,
-    key: "0",
-    onClick: () => {
-      console.log("1st menu item clicked");
-      // here you need to run fetch and set State
-    },
-  },
-  {
-    label: <p>Group By Urgency</p>,
-    key: "1",
-    onClick: () => {
-      console.log("2nd menu item clicked");
-      // here you need to run fetch and set State
-    },
-  },
-];
+
 
 const PieChartComponent = (props) => {
+
+  const getDataFromServer = async (fieldName) => {
+    const response = await fetch('http://localhost:9080/elastic-api/groupByField?' + new URLSearchParams({
+      fieldName
+    }))
+    const data = await response.json();
+    setData(data)
+    
+  }
+
+  const items = [
+    {
+      label: <p>Group By star title</p>,
+      key: "title",
+      onClick: () => {
+        setFieldName("title")
+      },
+    },
+    {
+      label: <p>Group By Urgency</p>,
+      key: "urgency",
+      onClick: () => {
+        setFieldName("urgency")
+      },
+    },
+  ];
+
+  const [fieldName, setFieldName] = useState("urgency");
   const [data, setData] = useState(() => {
-    return [
-      { name: "Group A", value: 400 },
-      { name: "Group B", value: 300 },
-      { name: "Group C", value: 300 },
-      { name: "Group D", value: 200 },
-    ];
+    getDataFromServer(fieldName).catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
   });
+
+  useEffect(() => {
+    getDataFromServer(fieldName).catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
+  },[fieldName])
 
   return (
     <div>
