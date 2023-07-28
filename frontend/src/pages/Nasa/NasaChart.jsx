@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import styled from 'styled-components';
 import moment from 'moment';
 import { Card } from 'antd';
+
+const ChartContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 20px;
+`;
 
 const NasaChart = () => {
   const [chartData, setChartData] = useState([]);
@@ -39,10 +45,16 @@ const NasaChart = () => {
         .sort((a, b) => new Date(a) - new Date(b))
         .map(date => ({ date, 'Number of Events': data[date] }));
 
+      localStorage.setItem('chartData', JSON.stringify(sortedData));
       setChartData(sortedData);
     };
 
-    fetchData();
+    let storedData = localStorage.getItem('chartData');
+    if (storedData) {
+      setChartData(JSON.parse(storedData));
+    } else {
+      fetchData();
+    }
   }, []);
 
   return (
