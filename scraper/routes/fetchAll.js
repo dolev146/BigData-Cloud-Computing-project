@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 
 const fetchAll = async () => {
   console.log("Starting scraper");
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
 
   // Navigate to spaceweatherlive.com
   const page = await browser.newPage();
