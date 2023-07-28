@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { DatePicker, Card, Spin, Table, Select } from "antd";
+import { DatePicker, Card, Spin, Table, Select, Tooltip } from "antd";
 import moment from "moment";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -34,94 +34,78 @@ const InformationByDate = () => {
     fetchDateRangeData();
   }, [dates]); // Include dates in dependency array
 
-  // New EventSource component
-  const EventSource = ({ text }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+  const TruncatedText = ({ text }) => {
+    const [isTruncated, setIsTruncated] = useState(true);
+    const displayText =
+      isTruncated && typeof text === "string" ? text.slice(0, 9) : text;
+
+    const handleCopy = async (txt) => {
+      try {
+        await navigator.clipboard.writeText(txt);
+        console.log("Copied to clipboard!");
+      } catch (err) {
+        console.log("Failed to copy text: ", err);
+      }
+    };
 
     return (
-      <div
-        style={{
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: isExpanded || text.length <= 5 ? "clip" : "ellipsis",
-          cursor: "pointer",
-          maxWidth: isExpanded ? "auto" : "100px",
-        }}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {text}
-      </div>
-    );
-  };
-
-  const EventType = ({ text }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    return (
-      <div
-        style={{
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: isExpanded || text.length <= 5 ? "clip" : "ellipsis",
-          cursor: "pointer",
-          maxWidth: isExpanded ? "auto" : "100px",
-        }}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {text}
-      </div>
+      <Tooltip title={text}>
+        <span
+          onClick={() => {
+            setIsTruncated(!isTruncated);
+            handleCopy(text);
+          }}
+        >
+          {displayText}
+        </span>
+      </Tooltip>
     );
   };
 
   // Define columns for Table
   const columns = [
     {
-      title: "Event Type",
-      dataIndex: "eventType",
-      render: (text) => <EventType text={text} />,
-    },
-    {
       title: "Event Source",
       dataIndex: "eventSource",
-      render: (text) => <EventSource text={text} />,
+      render: (text) => <TruncatedText text={text} />,
+    },
+    {
+      title: "Event Type",
+      dataIndex: "eventType",
+      render: (text) => <TruncatedText text={text} />,
     },
     {
       title: "Urgency",
       dataIndex: "urgency",
       sorter: (a, b) => a.urgency - b.urgency, // for sorting
       sortDirections: ["descend", "ascend"], // allows both ascending and descending sort
-      render: (urgency) => (
-        <div
-          style={{
-            backgroundColor:
-              urgency >= 5
-                ? "#FF4D4F"
-                : urgency >= 3
-                ? "#FFFBE6"
-                : "transparent",
-          }}
-        >
-          {urgency}
-        </div>
-      ),
+      render: (text) => <TruncatedText text={text} />,
     },
     {
       title: "Event TS",
       dataIndex: "eventTS",
+      render: (text) => (
+        <TruncatedText text={new Date(text).toLocaleString()} />
+      ),
     },
     {
       title: "Title",
       dataIndex: "title",
+      render: (text) => <TruncatedText text={text} />,
     },
     {
       title: "RA Value",
       dataIndex: "ra",
-      render: (ra) => `${ra.ra_val} (${ra.ra_pm})`,
+      render: (ra) => (
+        <TruncatedText text={`pm: ${ra.ra_pm}, val: ${ra.ra_val}`} />
+      ),
     },
     {
       title: "DEC Value",
       dataIndex: "dec",
-      render: (dec) => `${dec.dec_val} (${dec.dec_pm})`,
+      render: (dec) => (
+        <TruncatedText text={`pm: ${dec.dec_pm}, val: ${dec.dec_val}`} />
+      ),
     },
   ];
 
