@@ -8,7 +8,7 @@ const client = new Client({ node: ELASTIC_SEARCH_URL });
 // Search by 2 date ranges
 router.get("/searchByDateRange", async (req, res) => {
 	const { startDate, endDate } = req.query;
-	
+
 	try {
 		const response = await client.search({
 			index: "stars",
@@ -124,6 +124,50 @@ const getESData = async (index, query) => {
 		},
 	};
 };
+
+const fieldQueryMapping = {
+	urgency: "urgency",
+	title: "title.keyword"
+}
+
+router.get("/groupByField", async (req, res) => {
+	const { fieldName } = req.query;
+	const field = fieldQueryMapping[fieldName] ?? "urgency"
+	
+	const mapping = {};
+
+	try {
+		const responseAggregate = await client.search({
+			index: "stars", 
+			size: 0,
+			body: {
+				aggs: {
+					[fieldName]: {
+						terms: { field },
+					},
+				},
+			},
+		});
+	
+		const {
+			body: { aggregations },
+		} = responseAggregate;
+
+		for (const bucketObj of aggregations?.[fieldName]?.buckets) {
+			if (bucketObj?.key !== undefined) {
+				mapping[bucketObj?.key] = {
+					name: `${fieldName} :${bucketObj?.key}`,
+					value: bucketObj?.doc_count,
+				};
+			}
+		}
+	
+		return res.json(Object.values(mapping));
+	} catch (error) {
+		return res.json([]);
+		
+	}
+});
 
 router.get("/observatories", async (req, res) => {
 	try {
