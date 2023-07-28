@@ -7,9 +7,15 @@ import Alert2Component from "./Alert2Component";
 import FirstAlert from "./FirstAlert";
 
 const StyledCard = styled(Card)`
-  height: 31vh;
-  overflow-y: auto;
+  height: 34vh;
   border-bottom: 1px solid #00000020;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  overflow-y: hidden;
+  .ant-card-body {
+    /* padding: 0; */
+    height: 100%;
+    overflow-y: auto;
+  }
 `;
 const socket = io("http://localhost:3000");
 
@@ -51,7 +57,7 @@ const AlertComponent = () => {
               <FirstAlert
                 message={`${alert.eventType}`}
                 description={`Source: ${alert.eventSource}, Urgency :${alert.urgency}`}
-                type={alert.urgency >= 4 ? "error" : "warning"}
+                type={alert.urgency >= 3 ? "error" : "warning"}
                 index={index}
                 onCloseFnc={onCloseFnc}
               />
@@ -65,7 +71,7 @@ const AlertComponent = () => {
               <Alert2Component
                 message={`${alert.eventType}`}
                 description={`Source: ${alert.eventSource}, Urgency :${alert.urgency}`}
-                type={alert.urgency >= 4 ? "error" : "warning"}
+                type={alert.urgency >= 3 ? "error" : "warning"}
                 index={index}
                 onCloseFnc={onCloseFnc}
               />

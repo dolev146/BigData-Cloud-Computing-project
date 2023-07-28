@@ -1,5 +1,14 @@
 import React, { useCallback, useState } from "react";
-import { Pie, PieChart, Sector } from "recharts";
+import { Cell, Pie, PieChart, Sector, ResponsiveContainer } from "recharts";
+
+const COLORS = [
+  "#71A7EE",
+  "#49BEAA",
+  "#97be49",
+  "#FDCA40",
+  "#FB3640",
+  "#fb5a36",
+];
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -82,21 +91,28 @@ const PieChartDetailed = ({ data }) => {
     },
     [setActiveIndex]
   );
+
   return (
-    <PieChart width={700} height={700}>
-      <Pie
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data}
-        cx={350}
-        cy={350}
-        innerRadius={120}
-        outerRadius={140}
-        fill="#1b10e4cc"
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      />
-    </PieChart>
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart>
+        <Pie
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={180}
+          outerRadius={270}
+          dataKey="value"
+          onMouseEnter={onPieEnter}
+        >
+          {data &&
+            data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
 
