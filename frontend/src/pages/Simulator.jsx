@@ -191,8 +191,8 @@ const Simulator = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="NumberOfEvents" fill="#CB2A7B" />
-                  <Bar dataKey="NumberOfDangerousEvents" fill="#844191" />
+                  <Bar dataKey="NumberOfEvents" fill="#1677ff" />
+                  <Bar dataKey="NumberOfDangerousEvents" fill="#e30f79" />
                 </BarChart>
               </Card>
             </ChartContainer>

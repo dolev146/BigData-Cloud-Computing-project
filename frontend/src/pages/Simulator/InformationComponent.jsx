@@ -34,7 +34,7 @@ const InformationComponent = () => {
   const optionsWithDisabled = [
     { label: "Search by Date", value: "InformationByDate" },
     {
-      label: "Search by Observatory and Date",
+      label: "Search by Event Source and Date",
       value: "InformationByObservatoryandByDate",
     },
     { label: "Search by ID and Date", value: "InformationByIDandDate" },
