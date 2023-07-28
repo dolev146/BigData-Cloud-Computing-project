@@ -46,7 +46,7 @@ const InformationComponent = () => {
 
   return (
     <StyledInformationComponent>
-      <StyledHeader>Query the Data Base </StyledHeader>
+      <StyledHeader>Data Exploration </StyledHeader>
 
       <StyledRadioGroup>
         <Radio.Group

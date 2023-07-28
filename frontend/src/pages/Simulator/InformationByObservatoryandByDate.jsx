@@ -59,14 +59,36 @@ const InformationByObservatoryandByDate = () => {
     const displayText =
       isTruncated && typeof text === "string" ? text.slice(0, 9) : text;
 
+    const handleCopy = async (txt) => {
+      try {
+        await navigator.clipboard.writeText(txt);
+        console.log("Copied to clipboard!");
+      } catch (err) {
+        console.log("Failed to copy text: ", err);
+      }
+    };
+
     return (
       <Tooltip title={text}>
-        <span onClick={() => setIsTruncated(!isTruncated)}>{displayText}</span>
+        <span
+          onClick={() => {
+            setIsTruncated(!isTruncated);
+            handleCopy(text);
+          }}
+        >
+          {displayText}
+        </span>
       </Tooltip>
     );
   };
 
   const columns = [
+    {
+      title: "Title",
+      dataIndex: ["_source", "title"],
+      key: "title",
+      render: (text) => <TruncatedText text={text} />,
+    },
     {
       title: "Event Type",
       dataIndex: ["_source", "eventType"],
@@ -93,12 +115,7 @@ const InformationByObservatoryandByDate = () => {
         <TruncatedText text={new Date(text).toLocaleString()} />
       ),
     },
-    {
-      title: "Title",
-      dataIndex: ["_source", "title"],
-      key: "title",
-      render: (text) => <TruncatedText text={text} />,
-    },
+
     {
       title: "RA",
       dataIndex: ["_source", "ra"],
