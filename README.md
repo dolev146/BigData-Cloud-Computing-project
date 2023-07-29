@@ -91,8 +91,7 @@ and press "o" to open the front end
 
 | Image 1 | Image 2 | Image 3 |
 | :---: | :---: | :---: |
-| ![image1](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2b1bc519-4332-4a7e-b90e-dc6cae9dd374) | ![image2](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a2c44652-def5-42ce-a632-b7e8e99b4e81) | ![image3](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/f019daec-9f83-4082-8466-c5fa4885c013) |
-
+| ![image1](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2b1bc519-4332-4a7e-b90e-dc6cae9dd374) | ![image2](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a2c44652-def5-42ce-a632-b7e8e99b4e81) | ![image3](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/146a8db8-bd5e-4ff7-9070-429cc5764d23) |
 
 ## Materials:
 
