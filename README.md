@@ -21,6 +21,8 @@ The backend is written in NodeJS, in a Mirco-Services Approach and Lambda archit
 - [@yakov103](https://www.github.com/yakov103)
 - [@EitanKats](https://www.github.com/EitanKats)
 
+![ezgif com-video-to-gif (1)](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/ded31157-a114-4cd6-a6d4-93811aa24405)
+
 ## Run Locally
 
 ## The docker-compose file is creating the following services:
