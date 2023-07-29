@@ -85,3 +85,21 @@ run the front end
 npm run dev
 ```
 and press "o" to open the front end
+
+
+# Screenshots
+
+| Image 1 | Image 2 | Image 3 |
+| :---: | :---: | :---: |
+| ![image1](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2b1bc519-4332-4a7e-b90e-dc6cae9dd374) | ![image2](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a2c44652-def5-42ce-a632-b7e8e99b4e81) | ![image3](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/f019daec-9f83-4082-8466-c5fa4885c013) |
+
+
+## Materials:
+
+| Image 1 | Image 2 | Image 3 | Image 4 |
+|:-------:|:-------:|:-------:|:-------:|
+| ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/be28092c-3af9-4eeb-b0ef-eee5adf21c50) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/955509e3-8d11-45ef-98ca-5d29e636c465) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/130de69f-82dd-44b8-b5c5-d927fc7fce1b) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/e3a440e5-ec1c-4b30-9c1e-99c7331c6969) |
+
+
+
+
