@@ -10,23 +10,78 @@ architecture overview:
 
 
 
-The repository is divided into services:
+Description:
 
-- scraper - python service that will be used to scrape the web
-- api-service - Nodejs express application to serve the data using REST API
+For this project, we developed an application to show information from 3 different sources, NASA API, a Simulator with Elastic Search and Kafka, and data from 2 websites using a web scraper. Our application features knowledge in using new technologies which collect and stores data in an Elastic Search database. This information is transferred using Kafka which can handle large amounts of data, enabling communication between our data source and database. In addition, our system includes a real-time alert component, using Socket.io to notify users of crucial Events. The front end was created as a Single Page Application (SPA) using ReactJS.
+The backend is written in NodeJS, in a Mirco-Services Approach and Lambda architecture.
+
+## Authors
+
+- [@dolev146](https://www.github.com/dolev146)
+- [@yakov103](https://www.github.com/yakov103)
+- [@EitanKats](https://www.github.com/EitanKats)
+
+## Run Locally
 
 ## The docker-compose file is creating the following services:
-- api-service
-- redis
-- elastic-search
-- kafka + zoopker - currently muted
+- API Service with NodeJS
+- Redis
+- Elastic Search
+- [Cloud Karafaka](https://www.cloudkarafka.com/)  
 
-To run the full project:
-`docker-compose up`
 
-To kill everything:
-`ctrl + c`
+Clone the project
 
-or:
+```bash
+  git clone https://github.com/dolev146/BigData-Cloud-Computing-project.git
+```
 
-`docker-compose down`
+Go to the project directory
+
+```bash
+  cd BigData-Cloud-Computing-project
+```
+
+Set Up Docker
+
+make sure you have the docker engine open in your computer
+then run the following commands
+
+```bash
+  docker-compose build
+```
+
+```bash
+  docker-compose up
+```
+
+Set Up Scraper
+
+navigate to the scraper folder
+```bash
+cd scraper
+```
+
+install dependencies
+```bash
+npm i
+```
+
+start the scraper
+```bash
+npm start
+```
+
+Navigate to the frontend folder
+```bash
+cd frontend
+```
+install dependencies
+```bash
+npm i
+```
+run the front end
+```bash
+npm run dev
+```
+and press "o" to open the front end
