@@ -1,9 +1,17 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 import fetch from "node-fetch";
 
 const fetchAll = async () => {
   console.log("Starting scraper");
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    executablePath: 'chromium',
+    headless: true,
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+    ],
+  });
 
   // Navigate to spaceweatherlive.com
   const page = await browser.newPage();
