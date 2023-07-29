@@ -98,11 +98,58 @@ and press "o" to open the front end
 | Image 1 | Image 2 | Image 3 | Image 4 |
 |:-------:|:-------:|:-------:|:-------:|
 | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/be28092c-3af9-4eeb-b0ef-eee5adf21c50) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/955509e3-8d11-45ef-98ca-5d29e636c465) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/130de69f-82dd-44b8-b5c5-d927fc7fce1b) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/e3a440e5-ec1c-4b30-9c1e-99c7331c6969) |
+# Development Process
 
 ## Agile TeamWork
 
 ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a4d6c76e-693b-4ad6-91be-0659574d6aaa)
 ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2e7aaa44-1f48-48fe-a627-87c42e482d14)
+
+
+# Scraper
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/3e1d461c-69bd-4bd1-a265-c456b7ce110e)
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/80f65c98-4886-4b22-91e9-beb974435dba)
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/1e298207-e109-41a2-878e-189fa3723efe)
+
+# Nasa Api
+
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/832f8638-8787-4371-bb44-b6c79f43bde9)
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/49bf1760-382f-4f33-be3e-e86c25b87e9f)
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/b152db3f-e338-44dc-bd05-47573e1d652b)
+
+# Simulator
+
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/f9a1f472-c7da-49d6-9ece-9df612899df0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
