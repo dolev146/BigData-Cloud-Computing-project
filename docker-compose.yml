@@ -51,3 +51,11 @@ services:
       - elastic-ingestor/.env
     depends_on:
       - elasticsearch
+  
+  scraper:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    container_name: scraper
+    ports:
+      - "5001:5001"
