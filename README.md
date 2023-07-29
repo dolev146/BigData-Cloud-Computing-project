@@ -32,6 +32,9 @@ The backend is written in NodeJS, in a Mirco-Services Approach and Lambda archit
 
 Clone the project
 
+important!
+you need to have the .env files in order to run the project.
+
 ```bash
   git clone https://github.com/dolev146/BigData-Cloud-Computing-project.git
 ```
@@ -105,6 +108,10 @@ and press "o" to open the front end
 ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a4d6c76e-693b-4ad6-91be-0659574d6aaa)
 ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2e7aaa44-1f48-48fe-a627-87c42e482d14)
 
+**watch the YouTube video explaining everything**
+[![IMAGE ALT TEXT HERE](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/583354d0-f1f0-4714-8f2a-6e606499d689)](https://www.youtube.com/watch?v=UYEudRh2xv8&ab_channel=HanotzTv)
+
+ 
 
 # Scraper
 ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/3e1d461c-69bd-4bd1-a265-c456b7ce110e)
