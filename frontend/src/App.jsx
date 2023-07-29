@@ -17,9 +17,10 @@ const App = () => (
     <NavBar />
     <StyledMain>
       <Routes>
-        <Route path="/simulator" element={<Simulator />} exact />
+        <Route path="/" element={<Simulator />} exact />
         <Route path="/nasa" element={<Nasa />} />
-        <Route path="/" element={<Scraper />} />
+        <Route path="/scraper" element={<Scraper />} />
+        <Route path="*" element={<Simulator />} />
       </Routes>
     </StyledMain>
   </>
