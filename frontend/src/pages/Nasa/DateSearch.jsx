@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { DatePicker, message, Spin, Card } from "antd";
 import moment from "moment";
 import AsteroidTable from "./AsteroidTable";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, RadialBarChart, RadialBar, Cell } from 'recharts';
 import styled from "styled-components";
 
+
 const { RangePicker } = DatePicker;
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF'];
 
 const FlexContainer = styled.div`
   display: flex;
@@ -16,10 +19,57 @@ const FlexContainer = styled.div`
 const DateSearch = () => {
   const [dates, setDates] = useState([moment(), moment()]);
   const [dataToDisplay, setDataToDisplay] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [sizeData, setSizeData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const searchKey = "SEARCH_" + dates[0].toISOString().split("T")[0] + dates[1].toISOString().split("T")[0];
+
+  const prepareChartData = (data) => {
+    let chartData = {};
+
+    data.forEach((item) => {
+      const date = item.close_approach_data[0].close_approach_date;
+      if (chartData[date]) {
+        item.is_potentially_hazardous_asteroid ? chartData[date].hazardous += 1 : chartData[date].safe += 1;
+      } else {
+        chartData[date] = item.is_potentially_hazardous_asteroid ? { hazardous: 1, safe: 0 } : { hazardous: 0, safe: 1 };
+      }
+    });
+
+    return Object.keys(chartData).map((key) => ({
+      name: key,
+      ...chartData[key]
+    }));
+  };
+
+  const prepareSizeData = (data) => {
+    let sizeData = {
+      small: 0,
+      medium: 0,
+      large: 0,
+      enormous: 0
+    };
+
+    data.forEach((item) => {
+      const diameter = item.estimated_diameter.meters.estimated_diameter_max;
+      if (diameter < 100) {
+        sizeData.small++;
+      } else if (diameter < 500) {
+        sizeData.medium++;
+      } else if (diameter < 1000) {
+        sizeData.large++;
+      } else {
+        sizeData.enormous++;
+      }
+    });
+
+    return Object.keys(sizeData).map((key) => ({
+      name: key,
+      value: sizeData[key]
+    }));
+  };
 
   useEffect(() => {
     const fetchDate = async () => {
@@ -27,7 +77,10 @@ const DateSearch = () => {
 
       let storedData = localStorage.getItem(searchKey);
       if (storedData) {
-        setDataToDisplay(JSON.parse(storedData));
+        let parsedData = JSON.parse(storedData);
+        setDataToDisplay(parsedData);
+        setChartData(prepareChartData(parsedData));
+        setSizeData(prepareSizeData(parsedData));
         setLoading(false);
         return;
       }
@@ -59,14 +112,14 @@ const DateSearch = () => {
       );
 
       setDataToDisplay(merged_data);
+      setChartData(prepareChartData(merged_data));
+      setSizeData(prepareSizeData(merged_data));
 
-      // Trim the local storage if it has more than 10 search items.
       const searchKeys = Object.keys(localStorage).filter(key => key.startsWith("SEARCH_"));
       while (searchKeys.length > 10) {
         localStorage.removeItem(searchKeys.shift());
       }
 
-      // Save the new search results to local storage.
       localStorage.setItem(searchKey, JSON.stringify(merged_data));
 
       setLoading(false);
@@ -129,6 +182,62 @@ const DateSearch = () => {
       </FlexContainer>
       <div>
         <AsteroidTable asteroids={dataToDisplay} />
+        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+          <Card title="Safe and hazardous events">
+            <BarChart
+              width={window.innerWidth / 2 * 0.8}
+              height={400}
+              data={chartData}
+              margin={{
+                top: 5, right: 30, left: 20, bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="safe" stackId="a" fill="#4AAB79" />
+              <Bar dataKey="hazardous" stackId="a" fill="#C91B13" />
+            </BarChart>
+          </Card>
+          <Card title="Distribution by sizes">
+            <RadialBarChart
+              width={window.innerWidth / 2 * 0.8}
+              height={400}
+              cx="50%"
+              cy="50%"
+              innerRadius="30%"
+              outerRadius="100%"
+              barSize={20}
+              data={sizeData}
+              startAngle={0}
+              endAngle={340}
+            >
+              <RadialBar
+                minAngle={15}
+                label={{ position: "", fill: '#fff' }}
+                background
+                clockWise
+                dataKey='value'
+              >
+                {
+                  // This will assign each bar a different color from the COLORS array.
+                  sizeData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+                }
+              </RadialBar>
+              <Legend
+                iconSize={10}
+                width={120}
+                height={140}
+                layout='vertical'
+                verticalAlign='middle'
+                wrapperStyle={{ top: 0, right: 0, left: 30, bottom: 0 }}
+              />
+            </RadialBarChart>
+          </Card>
+
+        </div>
       </div>
     </div>
   );
