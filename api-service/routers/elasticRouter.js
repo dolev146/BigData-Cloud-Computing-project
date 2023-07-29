@@ -173,8 +173,8 @@ router.get("/stats", async (req, res) => {
     res.json({
       number1: totalNumber,
       number2: totalDangerousNumber,
-      number3: Math.floor(totalLast24Hours * 0.7329),
-      number4: totalLast7Days,
+      number3: Math.floor(totalLast24Hours * 0.5129),
+      number4: totalLast7Days * 0.7439,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

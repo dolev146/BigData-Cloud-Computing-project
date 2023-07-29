@@ -291,3 +291,4 @@ cython_debug/
 #.idea/
 scraper/old-result.json
 .gitignore
+scraper/result.json
