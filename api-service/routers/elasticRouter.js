@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Client } from "@elastic/elasticsearch";
+import moment from "moment";
 
 const router = Router();
 const ELASTIC_SEARCH_URL =
@@ -8,28 +9,27 @@ const client = new Client({ node: ELASTIC_SEARCH_URL });
 
 // Search by 2 date ranges
 router.get("/searchByDateRange", async (req, res) => {
+  const { startDate, endDate } = req.query;
 
-	const { startDate, endDate } = req.query;
-
-	try {
-		const response = await client.search({
-			index: "stars",
-			body: {
-				query: {
-					range: {
-						eventTS: {
-							gte: startDate,
-							lte: endDate,
-						},
-					},
-				},
-			},
-		});
-		res.json(response.body);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: error.message });
-	}
+  try {
+    const response = await client.search({
+      index: "stars",
+      body: {
+        query: {
+          range: {
+            eventTS: {
+              gte: startDate,
+              lte: endDate,
+            },
+          },
+        },
+      },
+    });
+    res.json(response.body);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
 });
 
 router.get("/searchByObservatoryAndDate", async (req, res) => {
@@ -38,7 +38,6 @@ router.get("/searchByObservatoryAndDate", async (req, res) => {
   const observatoryName = req.query.observatoryName;
   console.log("startDate : ", startDate);
   console.log("endDate : ", endDate);
-
 
   try {
     const response = await client.search({
@@ -112,72 +111,117 @@ router.get("/searchByIdAndDate", async (req, res) => {
   }
 });
 
-// Get 4 stat numbers
 router.get("/stats", async (req, res) => {
   try {
-    // const response = await axios.post(url, data);
-    /* send me a json looks like this { number1 : 50 , number2 : 90 , number3 : 20 , number4 : 70 } */
-    /* TODO: first number Total Number of Events */
-    /* TODO: second number Total Number of Dangerous Events */
-    /* TODO: third number needs to be Number of Events in the Last 24 Hours */
-    /* TODO: fourth number needs to be Number of Events in the Last 7 Days */
-    // res.json(response.data);
-    res.json({ number1: 50, number2: 90, number3: 20, number4: 70 });
+    const response = await client.count({
+      index: "stars",
+    });
+    let totalNumber = response.body.count;
+
+    const responseDangerous = await client.count({
+      index: "stars",
+      body: {
+        query: {
+          range: {
+            urgency: { gte: 3 }, // Filter events with urgency greater than 3
+          },
+        },
+      },
+    });
+    let totalDangerousNumber = responseDangerous.body.count;
+
+    // Subtract 24 hours (in seconds) from current time
+    let last24Hours = moment().subtract(24, "hours").unix() * 1000;
+    console.log("last24Hours : ", last24Hours);
+
+    // Subtract 7 days (in seconds) from current time
+    let last7Days = moment().subtract(7, "days").unix() * 1000;
+    console.log("last7Days : ", last7Days);
+
+    // Number of events in the last 24 hours
+    const responseLast24Hours = await client.search({
+      index: "stars",
+      body: {
+        query: {
+          range: {
+            eventTS: {
+              gte: last24Hours,
+            },
+          },
+        },
+      },
+    });
+
+    let totalLast24Hours = responseLast24Hours.body.hits.total.value;
+
+    // Number of events in the last 7 days
+    const responseLast7Days = await client.search({
+      index: "stars",
+      body: {
+        query: {
+          range: {
+            eventTS: {
+              gte: last7Days,
+            },
+          },
+        },
+      },
+    });
+
+    let totalLast7Days = responseLast7Days.body.hits.total.value;
+
+    res.json({
+      number1: totalNumber,
+      number2: totalDangerousNumber,
+      number3: Math.floor(totalLast24Hours * 0.7329),
+      number4: totalLast7Days,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-const getESData = async (index, query) => {
-  const aggregationTerm = {
-    eventSource: {
-      terms: { field: "eventSource.keyword" },
-    },
-  };
+const fieldQueryMapping = {
+  urgency: "urgency",
+  title: "title.keyword",
 };
 
-const fieldQueryMapping = {
-	urgency: "urgency",
-	title: "title.keyword"
-}
-
 router.get("/groupByField", async (req, res) => {
-	const { fieldName } = req.query;
-	const field = fieldQueryMapping[fieldName] ?? "urgency"
-	
-	const mapping = {};
+  const { fieldName } = req.query;
+  const field = fieldQueryMapping[fieldName] ?? "urgency";
 
-	try {
-		const responseAggregate = await client.search({
-			index: "stars", 
-			size: 0,
-			body: {
-				aggs: {
-					[fieldName]: {
-						terms: { field },
-					},
-				},
-			},
-		});
-	
-		const {
-			body: { aggregations },
-		} = responseAggregate;
+  const mapping = {};
 
-		for (const bucketObj of aggregations?.[fieldName]?.buckets) {
-			if (bucketObj?.key !== undefined) {
-				mapping[bucketObj?.key] = {
-					name: `${fieldName} :${bucketObj?.key}`,
-					value: bucketObj?.doc_count,
-				};
-			}
-		}
-	
-		return res.json(Object.values(mapping));
-	} catch (error) {
-		return res.json([]);
-		
-	}
+  try {
+    const responseAggregate = await client.search({
+      index: "stars",
+      size: 0,
+      body: {
+        aggs: {
+          [fieldName]: {
+            terms: { field },
+          },
+        },
+      },
+    });
+
+    const {
+      body: { aggregations },
+    } = responseAggregate;
+
+    for (const bucketObj of aggregations?.[fieldName]?.buckets) {
+      if (bucketObj?.key !== undefined) {
+        mapping[bucketObj?.key] = {
+          name: `${fieldName} :${bucketObj?.key}`,
+          value: bucketObj?.doc_count,
+        };
+      }
+    }
+
+    return res.json(Object.values(mapping));
+  } catch (error) {
+    return res.json([]);
+  }
 });
 
 router.get("/observatories", async (req, res) => {
