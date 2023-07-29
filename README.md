@@ -99,6 +99,10 @@ and press "o" to open the front end
 |:-------:|:-------:|:-------:|:-------:|
 | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/be28092c-3af9-4eeb-b0ef-eee5adf21c50) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/955509e3-8d11-45ef-98ca-5d29e636c465) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/130de69f-82dd-44b8-b5c5-d927fc7fce1b) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/e3a440e5-ec1c-4b30-9c1e-99c7331c6969) |
 
+## Agile TeamWork
+
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a4d6c76e-693b-4ad6-91be-0659574d6aaa)
+![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2e7aaa44-1f48-48fe-a627-87c42e482d14)
 
 
 
