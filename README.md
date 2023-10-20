@@ -5,8 +5,7 @@
 <img height=48 src="https://github.com/marwin1991/profile-technology-icons/assets/136815194/ab742751-b55b-43d7-8f49-9a67e293f67c" />
 
 architecture overview: 
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/cd25b6aa-6c47-4a61-ad89-cb683579f34a)
-
+![1](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/1a8f8866-09f1-4f73-9b0b-a6f0ccebbbc9)
 
 
 
@@ -21,7 +20,7 @@ The backend is written in NodeJS, in a Mirco-Services Approach and Lambda archit
 - [@yakov103](https://www.github.com/yakov103)
 - [@EitanKats](https://www.github.com/EitanKats)
 
-![ezgif com-video-to-gif (1)](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/ded31157-a114-4cd6-a6d4-93811aa24405)
+![2](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/d361c9f2-e6a1-4f63-b58f-997c78e99e1f)
 
 ## Run Locally
 
@@ -48,6 +47,9 @@ Go to the project directory
 ```
 
 Set Up Docker
+
+note you need apple m1 
+if not then there are modification in the dockerfile that need to be modiefied to x86 instead of arm64
 
 make sure you have the docker engine open in your computer
 then run the following commands
@@ -96,39 +98,35 @@ and press "o" to open the front end
 
 | Image 1 | Image 2 | Image 3 |
 | :---: | :---: | :---: |
-| ![image1](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2b1bc519-4332-4a7e-b90e-dc6cae9dd374) | ![image2](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a2c44652-def5-42ce-a632-b7e8e99b4e81) | ![image3](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/146a8db8-bd5e-4ff7-9070-429cc5764d23) |
+| ![3](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/fbf720f6-a4bf-4052-a3f6-9301199467af) | ![4](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/66345933-5fde-4cdb-8462-5521af64c52e) | ![5](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/9aad4a2d-eb54-4149-85bd-273501630d69) |
 
 ## Materials:
 
 | Image 1 | Image 2 | Image 3 | Image 4 |
 |:-------:|:-------:|:-------:|:-------:|
-| ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/be28092c-3af9-4eeb-b0ef-eee5adf21c50) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/955509e3-8d11-45ef-98ca-5d29e636c465) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/130de69f-82dd-44b8-b5c5-d927fc7fce1b) | ![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/e3a440e5-ec1c-4b30-9c1e-99c7331c6969) |
+| ![6](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/bd00e492-9207-4910-9d5f-36a4a0de0e6a) | ![7](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/6db11b1d-2fe8-4996-8408-25c9f56ba293) | ![8](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/19de6688-0cf0-431e-a39d-80c5290e14b4) | ![9](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/40a3d900-2a07-4937-bf27-061fbd892496) |
+
 # Development Process
 
 ## Agile TeamWork
 
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/a4d6c76e-693b-4ad6-91be-0659574d6aaa)
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/2e7aaa44-1f48-48fe-a627-87c42e482d14)
+![11](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/bc780920-1e3f-4154-a006-08ca706aaa4c)
+![12](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/626ecd56-5b43-49d0-a8e2-8ef08564e183)
+
 
 **watch the YouTube video explaining everything**
-[![IMAGE ALT TEXT HERE](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/583354d0-f1f0-4714-8f2a-6e606499d689)](https://www.youtube.com/watch?v=UYEudRh2xv8&ab_channel=HanotzTv)
+[![IMAGE ALT TEXT HERE](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/5a01403d-6a79-44d2-a9b3-6e8590a5bec3)](https://www.youtube.com/watch?v=UYEudRh2xv8&ab_channel=HanotzTv)
 
- 
 
 # Scraper
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/3e1d461c-69bd-4bd1-a265-c456b7ce110e)
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/80f65c98-4886-4b22-91e9-beb974435dba)
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/1e298207-e109-41a2-878e-189fa3723efe)
+
+![14](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/c4626521-9c5f-430d-a42a-c3bfe8b2d545)
+![15](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/d037fb35-2e96-4fdc-9fc1-0b6db8567e4d)
+![16](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/ceef2473-04ed-4615-b829-1b7fb6e52885)
 
 # Nasa Api
 
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/832f8638-8787-4371-bb44-b6c79f43bde9)
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/49bf1760-382f-4f33-be3e-e86c25b87e9f)
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/b152db3f-e338-44dc-bd05-47573e1d652b)
-
 # Simulator
-
-![image](https://github.com/dolev146/BigData-Cloud-Computing-project/assets/62290677/f9a1f472-c7da-49d6-9ece-9df612899df0)
 
 
 
