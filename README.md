@@ -14,6 +14,8 @@ Description:
 For this project, we developed an application to show information from 3 different sources, NASA API, a Simulator with Elastic Search and Kafka, and data from 2 websites using a web scraper. Our application features knowledge in using new technologies which collect and stores data in an Elastic Search database. This information is transferred using Kafka which can handle large amounts of data, enabling communication between our data source and database. In addition, our system includes a real-time alert component, using Socket.io to notify users of crucial Events. The front end was created as a Single Page Application (SPA) using ReactJS.
 The backend is written in NodeJS, in a Mirco-Services Approach and Lambda architecture.
 
+https://www.youtube.com/watch?v=UYEudRh2xv8&ab_channel=HanotzTv
+
 ## Authors
 
 - [@dolev146](https://www.github.com/dolev146)
